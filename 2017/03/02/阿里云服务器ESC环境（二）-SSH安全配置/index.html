@@ -1,0 +1,300 @@
+
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  
+  <title>阿里云服务器ESC环境（二） - SSH安全配置 | 范TE剑</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="远程服务器的Linux系统，使用SSH来操作是必不可少的。阿里云ESC默认的服务器默认提供了SSH支持，但是是使用账户密码登录，而且是root用户，相对来说不太安全。所以对SSH进行安全配置必不可少，安全配置清单如下：  禁用root用户密码登录，使用SSH key密钥登录； 修改SSH默认端口； 添加普通用户，拥有SU身份，仅允许SSH Key密钥登录 禁止root用户登录">
+<meta name="keywords" content="Ubuntu,阿里云,云服务器,ESC,阿里云服务器环境,SSH配置,多SSH Key">
+<meta property="og:type" content="article">
+<meta property="og:title" content="阿里云服务器ESC环境（二） - SSH安全配置">
+<meta property="og:url" content="http://hcw2175.github.io/2017/03/02/阿里云服务器ESC环境（二）-SSH安全配置/index.html">
+<meta property="og:site_name" content="范TE剑">
+<meta property="og:description" content="远程服务器的Linux系统，使用SSH来操作是必不可少的。阿里云ESC默认的服务器默认提供了SSH支持，但是是使用账户密码登录，而且是root用户，相对来说不太安全。所以对SSH进行安全配置必不可少，安全配置清单如下：  禁用root用户密码登录，使用SSH key密钥登录； 修改SSH默认端口； 添加普通用户，拥有SU身份，仅允许SSH Key密钥登录 禁止root用户登录">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-11-15T00:59:18.060Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="阿里云服务器ESC环境（二） - SSH安全配置">
+<meta name="twitter:description" content="远程服务器的Linux系统，使用SSH来操作是必不可少的。阿里云ESC默认的服务器默认提供了SSH支持，但是是使用账户密码登录，而且是root用户，相对来说不太安全。所以对SSH进行安全配置必不可少，安全配置清单如下：  禁用root用户密码登录，使用SSH key密钥登录； 修改SSH默认端口； 添加普通用户，拥有SU身份，仅允许SSH Key密钥登录 禁止root用户登录">
+  
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+    <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+  
+
+</head>
+</html>
+<body>
+<div id="container">
+  <div id="wrap">
+    <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <nav id="upper-nav" class="inner">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <div class="sub-nav">
+        
+        
+      </div>
+    </nav>
+    <div id="header-title">
+      
+        <h1 id="blog-title-wrap">
+          <a href="/" id="blog-title">范TE剑</a>
+        </h1>
+      
+    </div>
+    <div id="contenedor">
+      <ul class="cube">
+        <li class="cara">范TE剑</li>
+        <li class="cara"></li>
+        <li class="cara"></li>
+        <li class="cara"></li>
+        <li class="cara"></li>
+        <li class="cara"></li>
+      </ul>
+    </div>
+    <nav id="main-nav">
+      
+        <a class="main-nav-link" href="/">首页</a>
+      
+        <a class="main-nav-link" href="/archives">归档</a>
+      
+        <a class="main-nav-link" href="/about">关于</a>
+      
+      <a class="main-nav-link st-search-show-outputs">搜索</a>
+    </nav>
+  </div>
+</header>
+
+    <div class="outer">
+      <section id="main"><article id="post-阿里云服务器ESC环境（二）-SSH安全配置" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <h3 href="/2017/03/02/阿里云服务器ESC环境（二）-SSH安全配置/" class="article-date">
+  <time datetime="2017-03-02T13:16:15.000Z" itemprop="datePublished">2017-03-02</time>
+</h3>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/阿里云服务器/">阿里云服务器</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+  <div class="curve-down">
+  <div class="fill-content">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      阿里云服务器ESC环境（二） - SSH安全配置
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+        <p>远程服务器的Linux系统，使用SSH来操作是必不可少的。阿里云ESC默认的服务器默认提供了SSH支持，但是是使用账户密码登录，而且是root用户，相对来说不太安全。所以对SSH进行安全配置必不可少，安全配置清单如下：</p>
+<ul>
+<li>禁用root用户密码登录，使用SSH key密钥登录；</li>
+<li>修改SSH默认端口；</li>
+<li>添加普通用户，拥有SU身份，仅允许SSH Key密钥登录</li>
+<li>禁止root用户登录</li>
+</ul>
+<a id="more"></a>
+<h2 id="设置SSH密钥"><a href="#设置SSH密钥" class="headerlink" title="设置SSH密钥"></a>设置SSH密钥</h2><p>设置SSH密钥前需要先在服务器创建存储密钥的文件夹：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在root根目录下创建目录</span></span><br><span class="line">mkdir .ssh</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置目录权限</span></span><br><span class="line">chmod 700 ~/.ssh</span><br></pre></td></tr></table></figure>
+<h3 id="密钥生成"><a href="#密钥生成" class="headerlink" title="密钥生成"></a>密钥生成</h3><h4 id="Mac环境生成密钥"><a href="#Mac环境生成密钥" class="headerlink" title="Mac环境生成密钥"></a>Mac环境生成密钥</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 本地执行命令生成 id_rsa（私钥）和 id_rsa.pub（公钥），回车忽略密码。生成后存在于~/.ssh下</span></span><br><span class="line"><span class="comment"># 多个密钥请参考后续章节</span></span><br><span class="line">ssh-keygen -t rsa</span><br><span class="line"></span><br><span class="line"><span class="comment"># 拷贝公钥到服务器.ssh目录下，并改名为：authorized_keys。</span></span><br><span class="line">sudo scp ~/.ssh/id_rsa.pub root@[ip]:~/.ssh/authorized_keys</span><br><span class="line"></span><br><span class="line"><span class="comment"># 登录服务器设置authorized_keys权限</span></span><br><span class="line">chmod 600 ~/.ssh/authorized_keys</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>上面命令中 <strong>[ip]</strong> 为服务器IP地址</p>
+</blockquote>
+<h4 id="Windows环境生产密钥"><a href="#Windows环境生产密钥" class="headerlink" title="Windows环境生产密钥"></a>Windows环境生产密钥</h4><p>windows下生产SSH Key需要安装Git客户端。安装完毕后使用 <strong>Git Bash</strong>操作：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 生成key，回车忽略密码，生产后存于用户目录下.ssh中</span></span><br><span class="line">ssh-keygen -t rsa -C <span class="string">"[Email地址]"</span></span><br></pre></td></tr></table></figure>
+<p>生成后使用<strong>Xshell 5</strong>按照上面mac环境中的操作拷贝到服务器下并设置权限即可。</p>
+<h4 id="多个密钥管理"><a href="#多个密钥管理" class="headerlink" title="多个密钥管理"></a>多个密钥管理</h4><p>一般情况多个服务器应该对应不同公钥，另外还有Github、GitLab这些网站也需要密钥的。所以可能就需要多个密钥了。</p>
+<p>那么如何管理多个密钥，并让不同的私玥对应不同的公钥呢？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># 生成github使用的的密钥: id_rsa.github</span><br><span class="line">ssh-keygen -t rsa -C &quot;hcw2175@163.com&quot; -f id_rsa.github</span><br><span class="line"></span><br><span class="line"># 额外将新生成的密钥添加到环境中，切换到.ssh目录操作</span><br><span class="line">ssh-add id_rsa.github</span><br><span class="line"></span><br><span class="line"># 如果执行ssh-add时提示&quot;Could not open a connection to your authentication agent&quot;，可以现执行命令：</span><br><span class="line">ssh-agent bash</span><br><span class="line"></span><br><span class="line"># 查询已生成密钥</span><br><span class="line">ssh-add -l</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>.ssh目录下即可看见：id_rsa.github 和 id_rsa.github.pub 2个文件</p>
+</blockquote>
+<p>创建好密钥后到.ssh目录下创建一个 <code>config</code> 文件，配置参考：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># github</span><br><span class="line">Host github.com</span><br><span class="line">    HostName github.com</span><br><span class="line">    PreferredAuthentications publickey</span><br><span class="line">    IdentityFile /c/Users/hucw/.ssh/id_rsa.github</span><br></pre></td></tr></table></figure>
+<p>如果有多个则配置多可即可，服务器IP直接在Host及HostName填写IP地址。</p>
+<p><em>当然windows上使用Xshell 5的话不需要以上配置，在Xshell5上配置服务器时引入对应的SSH Key即可。</em></p>
+<h3 id="禁用root用户密码登录"><a href="#禁用root用户密码登录" class="headerlink" title="禁用root用户密码登录"></a>禁用root用户密码登录</h3><p>经过上面步骤，SSH 密钥已创建好，接下来就是修改SSH的配置文件了，然后禁止root用户使用密码登录。</p>
+<p>服务器上操作：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 编辑SSH配置文件，习惯使用nano命令</span></span><br><span class="line">nano /etc/ssh/sshd_config</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改4个属性并去掉#号。</span></span><br><span class="line">RSAAuthentication yes</span><br><span class="line">PubkeyAuthentication yes</span><br><span class="line">AuthorizedKeysFile %h/.ssh/authorized_keys</span><br><span class="line">PasswordAuthentication no</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重启ssh服务</span></span><br><span class="line">sudo service ssh restart</span><br></pre></td></tr></table></figure>
+<p>修改完毕后，使用密钥登录测试。</p>
+<p><strong>注意当前窗口不要关闭，新开一个窗口使用SSH密钥连接到服务器测试正常才允许关闭，否则无法将无法再连接到服务器</strong></p>
+<h3 id="修改SSH端口"><a href="#修改SSH端口" class="headerlink" title="修改SSH端口"></a>修改SSH端口</h3><p>同样编辑SSH配置文件即可：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 编辑SSH配置文件，习惯使用nano命令</span></span><br><span class="line">nano /etc/ssh/sshd_config</span><br><span class="line"></span><br><span class="line"><span class="comment"># 增加端口3761，并在阿里控制台中开放该端口,</span></span><br><span class="line">Port 22</span><br><span class="line">Port [新端口]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 保存后需重启ssh服务</span></span><br><span class="line">sudo service ssh restart</span><br><span class="line"></span><br><span class="line"><span class="comment"># 测试ssh端口登录</span></span><br><span class="line">ssh -p [新端口] root@[ip]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 测试成功后禁用22端口</span></span><br><span class="line"><span class="comment"># Port 22</span></span><br></pre></td></tr></table></figure>
+<p>这里要说明下：阿里云服务器ESC是自带防火墙功能的，不需要再服务器内部配置防火窗这么麻烦，只需要到阿里云控制台对应的服务器管理下的安全组配置，配置开发对应端口允许外网访问即可。默认所有端口都可以访问，建议只开放特定端口，如80。</p>
+<h3 id="配置普通用户SSH登录"><a href="#配置普通用户SSH登录" class="headerlink" title="配置普通用户SSH登录"></a>配置普通用户SSH登录</h3><p>使用root用户操作以下命令创建用户：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建用户，并创建默认目录</span></span><br><span class="line">useradd -m -s <span class="string">'/bin/bash'</span> [username]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改密码</span></span><br><span class="line">passwd [username]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 增加su身份，修改 /etc/sudoers 文件，修改如下</span></span><br><span class="line">[username] ALL=(ALL:ALL) ALL</span><br></pre></td></tr></table></figure>
+<p>设置SSH登录：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 切换到用户身份</span></span><br><span class="line">su - [username]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建目录</span></span><br><span class="line">mkdir .ssh</span><br><span class="line"></span><br><span class="line"><span class="comment"># 返回root用户身份</span></span><br><span class="line"><span class="built_in">exit</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 拷贝SSH密钥到用户目录下</span></span><br><span class="line">cp .ssh/authorized_keys /home/[username]/.ssh/</span><br><span class="line"></span><br><span class="line">su - [username]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 更改文件所属</span></span><br><span class="line">sudo chown [username]:[username] .ssh/authorized_keys</span><br><span class="line"></span><br><span class="line"><span class="comment">#更改权限</span></span><br><span class="line">chmod 700 ~/.ssh</span><br><span class="line">chmod 600 ~/.ssh/authorized_keys</span><br></pre></td></tr></table></figure>
+<p>本地测试使用新建用户SSH登录到服务器：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -p [新端口] [username]@[ip]</span><br></pre></td></tr></table></figure>
+<p>若成功则禁用root用户远程登录。</p>
+<h3 id="禁用root用户登录"><a href="#禁用root用户登录" class="headerlink" title="禁用root用户登录"></a>禁用root用户登录</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">nano /etc/ssh/sshd_config</span><br><span class="line"></span><br><span class="line"><span class="comment"># 禁用root用户登录</span></span><br><span class="line">PermitRootLogin no</span><br></pre></td></tr></table></figure>
+<p>重启SSH服务并测试。</p>
+<blockquote>
+<p>需要注意的是测试过程原窗口都不要关掉，否则失败后可能导致再也连不上服务器了。</p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <div class="article-footer-content">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ESC/">ESC</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SSH配置/">SSH配置</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ubuntu/">Ubuntu</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/云服务器/">云服务器</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/多SSH-Key/">多SSH Key</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/阿里云/">阿里云</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/阿里云服务器环境/">阿里云服务器环境</a></li></ul>
+
+        <a data-url="http://hcw2175.github.io/2017/03/02/阿里云服务器ESC环境（二）-SSH安全配置/" data-id="cjohwyasp000gip3iggqrog4p" class="article-share-link">分享到</a>
+        
+      </div>
+    </footer>
+  </div>
+  </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/03/04/阿里云服务器ESC环境（三）-FTP配置/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">
+        
+          阿里云服务器ESC环境（三） - FTP配置
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/02/28/阿里云服务器ESC环境（一）-基本配置/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">阿里云服务器ESC环境（一）- 基本配置</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+      
+      <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">近期文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/11/14/IOS微信上Vue单页面应用JSSDK签名失败解决方案/">IOS微信上Vue单页面应用JSSDK签名失败解决方案</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/11/解决Vue引入百度地图JSSDK：BMap is undefined 问题/">解决Vue引入百度地图JSSDK：BMap is undefined 问题</a>
+          </li>
+        
+          <li>
+            <a href="/2017/10/18/如何推送镜像到官方Docker Hub/">如何推送镜像到官方docker</a>
+          </li>
+        
+          <li>
+            <a href="/2017/03/18/阿里云服务器ESC环境（四）-Java、Nginx、Docker安装/">阿里云服务器ESC环境（四） - Java、Nginx、Docker安装</a>
+          </li>
+        
+          <li>
+            <a href="/2017/03/04/阿里云服务器ESC环境（三）-FTP配置/">阿里云服务器ESC环境（三） - FTP配置</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android开发/">Android开发</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AngularJS/">AngularJS</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ESC/">ESC</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/FTP/">FTP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Glide封装/">Glide封装</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nginx/">Nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Retroft2封装/">Retroft2封装</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava封装/">RxJava封装</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSH配置/">SSH配置</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ubuntu/">Ubuntu</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VSFTPD/">VSFTPD</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ionic/">ionic</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ionic入门/">ionic入门</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu-server/">ubuntu server</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/">vue</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/">windows</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/云服务器/">云服务器</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多SSH-Key/">多SSH Key</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/干货集中营/">干货集中营</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/干货集中营，看我开发干货集中营/">干货集中营，看我开发干货集中营</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/微信/">微信</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/微信JSSDK/">微信JSSDK</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/微信支付/">微信支付</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/微信服务号/">微信服务号</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/百度地图/">百度地图</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/看我开发干货集中营/">看我开发干货集中营</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/虚拟机ssh/">虚拟机ssh</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/阿里云/">阿里云</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/阿里云服务器环境/">阿里云服务器环境</a><span class="tag-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+  
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 范TE剑<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      .
+      Theme by <a href="https://github.com/sun11/hexo-theme-paperbox" target="_blank">Paperbox</a>
+    </div>
+  </div>
+</footer>
+  </div>
+  <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+    <a href="/about" class="mobile-nav-link">关于</a>
+  
+  <a href="#search" class="mobile-nav-link st-search-show-outputs">搜索</a>
+</nav>
+
+  
+
+<!-- totop start -->
+<div id="totop">
+	<a title="返回顶部"></a>
+</div>
+<!-- totop end -->
+
+<!-- swiftype search start -->
+
+<!-- swiftype search end -->
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/lrsjng.jquery-qrcode/0.12.0/jquery.qrcode.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+</div>
+</body>
+</html>

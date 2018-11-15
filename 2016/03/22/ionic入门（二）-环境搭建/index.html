@@ -1,0 +1,293 @@
+
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  
+  <title>ionic入门（二）-环境搭建 | 范TE剑</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="上一篇文章《ionic入门（一）-简述》为大家简单介绍了学习ionic以及angularjs的相关资料，从这些资料中应该了解到ionic的一些知识。本篇文章将教大家如何搭建ionic的开发环境，其实也是没什么难度，看来文档应该也会搭建的了, 分成几个步骤：   配置Java环境变量 下载安装NodeJS 配置Android环境变量，并下载SDK 安装Cordova、ionic">
+<meta name="keywords" content="ionic,ionic入门,AngularJS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ionic入门（二）-环境搭建">
+<meta property="og:url" content="http://hcw2175.github.io/2016/03/22/ionic入门（二）-环境搭建/index.html">
+<meta property="og:site_name" content="范TE剑">
+<meta property="og:description" content="上一篇文章《ionic入门（一）-简述》为大家简单介绍了学习ionic以及angularjs的相关资料，从这些资料中应该了解到ionic的一些知识。本篇文章将教大家如何搭建ionic的开发环境，其实也是没什么难度，看来文档应该也会搭建的了, 分成几个步骤：   配置Java环境变量 下载安装NodeJS 配置Android环境变量，并下载SDK 安装Cordova、ionic">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-11-15T00:59:18.051Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ionic入门（二）-环境搭建">
+<meta name="twitter:description" content="上一篇文章《ionic入门（一）-简述》为大家简单介绍了学习ionic以及angularjs的相关资料，从这些资料中应该了解到ionic的一些知识。本篇文章将教大家如何搭建ionic的开发环境，其实也是没什么难度，看来文档应该也会搭建的了, 分成几个步骤：   配置Java环境变量 下载安装NodeJS 配置Android环境变量，并下载SDK 安装Cordova、ionic">
+  
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+    <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+  
+
+</head>
+</html>
+<body>
+<div id="container">
+  <div id="wrap">
+    <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <nav id="upper-nav" class="inner">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <div class="sub-nav">
+        
+        
+      </div>
+    </nav>
+    <div id="header-title">
+      
+        <h1 id="blog-title-wrap">
+          <a href="/" id="blog-title">范TE剑</a>
+        </h1>
+      
+    </div>
+    <div id="contenedor">
+      <ul class="cube">
+        <li class="cara">范TE剑</li>
+        <li class="cara"></li>
+        <li class="cara"></li>
+        <li class="cara"></li>
+        <li class="cara"></li>
+        <li class="cara"></li>
+      </ul>
+    </div>
+    <nav id="main-nav">
+      
+        <a class="main-nav-link" href="/">首页</a>
+      
+        <a class="main-nav-link" href="/archives">归档</a>
+      
+        <a class="main-nav-link" href="/about">关于</a>
+      
+      <a class="main-nav-link st-search-show-outputs">搜索</a>
+    </nav>
+  </div>
+</header>
+
+    <div class="outer">
+      <section id="main"><article id="post-ionic入门（二）-环境搭建" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <h3 href="/2016/03/22/ionic入门（二）-环境搭建/" class="article-date">
+  <time datetime="2016-03-22T13:20:25.000Z" itemprop="datePublished">2016-03-22</time>
+</h3>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/ionic入门/">ionic入门</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+  <div class="curve-down">
+  <div class="fill-content">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      ionic入门（二）-环境搭建
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+        <p>上一篇文章<a href="http://www.huchiwei.com/2016/03/20/ionic%E5%85%A5%E9%97%A8%EF%BC%88%E4%B8%80%EF%BC%89-%E7%AE%80%E8%BF%B0/" target="_blank" rel="noopener">《ionic入门（一）-简述》</a>为大家简单介绍了学习ionic以及angularjs的相关资料，从这些资料中应该了解到ionic的一些知识。本篇文章将教大家如何搭建ionic的开发环境，其实也是没什么难度，看来文档应该也会搭建的了, 分成几个步骤：</p>
+<blockquote>
+<ol>
+<li>配置Java环境变量</li>
+<li>下载安装NodeJS</li>
+<li>配置Android环境变量，并下载SDK</li>
+<li>安装Cordova、ionic</li>
+</ol>
+</blockquote>
+<a id="more"></a>
+<p>下面跟着步骤来做吧:</p>
+<p><em>注意： 本篇环境配置是基于Windows环境的，Mac环境自行上网搜索下，步骤基本差不多</em></p>
+<h2 id="1-配置Java环境变量"><a href="#1-配置Java环境变量" class="headerlink" title="1. 配置Java环境变量"></a>1. 配置Java环境变量</h2><p>JAVA SDK下载推荐大家到oracle官网按需要下载对应版本: <a href="http://www.oracle.com/technetwork/cn/java/javase/downloads/jdk8-downloads-2133151-zhs.html" target="_blank" rel="noopener">jdk-8u73-windows-x64.exe</a></p>
+<p>下载后正常安装，<strong>记得JDK的安装路径</strong>,环境变量配置需要它。</p>
+<p>安装完成后直接快捷键win+x调出菜单(win7开始菜单&gt;计算机&gt;右键) &gt; 系统 &gt; 高级系统配置 &gt; 环境变量，然后在系统变量里面添加以下变量：</p>
+<ul>
+<li><strong>JAVA_HOME</strong> = [JDK安装路径]，如D:\DevTools\Java\jdk1.8.0_73</li>
+<li><strong>CLASSPATH</strong> = .;%JAVA_HOME%\lib\dt.jar;%JAVA_HOME%\lib\tools.jar; ，注意前面.和后面;。</li>
+</ul>
+<p>然后在 <strong>PATH</strong> 变量最后加入： <code>%JAVA_HOME%\bin;</code>。 win10在<code>PATH</code>追加内容更方便，但是win10上不需要分号。</p>
+<p>确定关闭，开启cmd验证，全局输入下命令：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\ozhu2&gt;java -version    </span><br><span class="line">java version <span class="string">"1.8.0_73"</span>           </span><br><span class="line">Java(TM) SE Runtime Environment (build <span class="number">1.8</span><span class="number">.0</span>_73-b02)       </span><br><span class="line">Java HotSpot(TM) <span class="number">64</span>-Bit Server VM (build <span class="number">25.73</span>-b02, mixed mode)</span><br></pre></td></tr></table></figure>
+<h2 id="2-下载安装NodeJS"><a href="#2-下载安装NodeJS" class="headerlink" title="2. 下载安装NodeJS"></a>2. 下载安装NodeJS</h2><p>这个没什么好说的，大家到官网下载对应版本直接安装就好了，它安装过程会自动添加环境变量的，安装完使用cmd验证下就好了：</p>
+<p><code>node -v</code><br><code>npm -v</code></p>
+<p>打印对应版本信息即安装成功</p>
+<h2 id="3-配置Android环境变量"><a href="#3-配置Android环境变量" class="headerlink" title="3. 配置Android环境变量"></a>3. 配置Android环境变量</h2><p>首先大家先下载Android的SDK，然后放对相关目录里下，如D:\DevTools\android-sdk-windows。</p>
+<p>SDK国内下载地址： <a href="http://www.androiddevtools.cn/" target="_blank" rel="noopener">http://www.androiddevtools.cn/</a></p>
+<p>先下载SDK Tools，解压到相关目录，然后再下载SDK Platform-Tools、Build-Tools、SDK等，sdk可以先不下载，按照上面网站的提示解压到对应路径。</p>
+<p>下载解压完后在环境变量里面配置以下属性：</p>
+<ul>
+<li><strong>ANDROID_HOME</strong> = D:\devTools\android-sdk-windows</li>
+</ul>
+<p>然后在 <strong>PATH</strong> 变量最后加入： <code>%ANDROID_HOME%\tools;%ANDROID_HOME%\platform-tools;</code>。 cmd输入<code>android</code>弹出sdk管理器即配置成功。</p>
+<h2 id="4-安装Cordova、ionic"><a href="#4-安装Cordova、ionic" class="headerlink" title="4. 安装Cordova、ionic"></a>4. 安装Cordova、ionic</h2><p>最后安装node modules，即cordova 和 ionic，使用cmd输入命令：</p>
+<p><code>npm install -g cordova</code>， 全局安装cordova<br><code>npm install -g ionic</code>， 全局安装ionic</p>
+<p>可能国内npm下载会很慢，大家可以尝试淘宝cnpm镜像加速： <a href="https://npm.taobao.org/" target="_blank" rel="noopener">https://npm.taobao.org/</a></p>
+<p>同样安装完后键入命令验证即可：</p>
+<p><code>cordova -v</code><br><code>ionic -v</code></p>
+<p>另外，推荐大家把gulp和bower也安装了，后面前端资源管理需要用到他们：    </p>
+<p><code>npm install -g gulp</code><br><code>npm install -g bower</code></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <div class="article-footer-content">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AngularJS/">AngularJS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ionic/">ionic</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ionic入门/">ionic入门</a></li></ul>
+
+        <a data-url="http://hcw2175.github.io/2016/03/22/ionic入门（二）-环境搭建/" data-id="cjohwyasd0004ip3igkyo7mvs" class="article-share-link">分享到</a>
+        
+      </div>
+    </footer>
+  </div>
+  </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/03/23/ionic入门（三）-规范约定/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">
+        
+          ionic入门（三）-规范约定
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/03/20/ionic入门（一）-简述/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">ionic入门（一）-简述</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+      
+      <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">近期文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/11/14/IOS微信上Vue单页面应用JSSDK签名失败解决方案/">IOS微信上Vue单页面应用JSSDK签名失败解决方案</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/11/解决Vue引入百度地图JSSDK：BMap is undefined 问题/">解决Vue引入百度地图JSSDK：BMap is undefined 问题</a>
+          </li>
+        
+          <li>
+            <a href="/2017/10/18/如何推送镜像到官方Docker Hub/">如何推送镜像到官方docker</a>
+          </li>
+        
+          <li>
+            <a href="/2017/03/18/阿里云服务器ESC环境（四）-Java、Nginx、Docker安装/">阿里云服务器ESC环境（四） - Java、Nginx、Docker安装</a>
+          </li>
+        
+          <li>
+            <a href="/2017/03/04/阿里云服务器ESC环境（三）-FTP配置/">阿里云服务器ESC环境（三） - FTP配置</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android开发/">Android开发</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AngularJS/">AngularJS</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ESC/">ESC</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/FTP/">FTP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Glide封装/">Glide封装</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nginx/">Nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Retroft2封装/">Retroft2封装</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava封装/">RxJava封装</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSH配置/">SSH配置</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ubuntu/">Ubuntu</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VSFTPD/">VSFTPD</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ionic/">ionic</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ionic入门/">ionic入门</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu-server/">ubuntu server</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/">vue</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/">windows</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/云服务器/">云服务器</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多SSH-Key/">多SSH Key</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/干货集中营/">干货集中营</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/干货集中营，看我开发干货集中营/">干货集中营，看我开发干货集中营</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/微信/">微信</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/微信JSSDK/">微信JSSDK</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/微信支付/">微信支付</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/微信服务号/">微信服务号</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/百度地图/">百度地图</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/看我开发干货集中营/">看我开发干货集中营</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/虚拟机ssh/">虚拟机ssh</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/阿里云/">阿里云</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/阿里云服务器环境/">阿里云服务器环境</a><span class="tag-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+  
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 范TE剑<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      .
+      Theme by <a href="https://github.com/sun11/hexo-theme-paperbox" target="_blank">Paperbox</a>
+    </div>
+  </div>
+</footer>
+  </div>
+  <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+    <a href="/about" class="mobile-nav-link">关于</a>
+  
+  <a href="#search" class="mobile-nav-link st-search-show-outputs">搜索</a>
+</nav>
+
+  
+
+<!-- totop start -->
+<div id="totop">
+	<a title="返回顶部"></a>
+</div>
+<!-- totop end -->
+
+<!-- swiftype search start -->
+
+<!-- swiftype search end -->
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/lrsjng.jquery-qrcode/0.12.0/jquery.qrcode.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+</div>
+</body>
+</html>

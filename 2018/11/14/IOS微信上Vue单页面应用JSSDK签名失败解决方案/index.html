@@ -1,0 +1,272 @@
+
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  
+  <title>IOS微信上Vue单页面应用JSSDK签名失败解决方案 | 范TE剑</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="背景手机型号：  型号：iphone 7 / iphone xs max版本：ios 10.3.1 / ios 12.1微信版本：WeChat 6.7.3  问题还原：  Vue应用(vue-router)上使用history模式，在某个页面内调用微信JSSDK相关API，如扫码、分享等，使用当前页面URL总会出现签名错误(invalid signature)，导致API调用失败。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="IOS微信上Vue单页面应用JSSDK签名失败解决方案">
+<meta property="og:url" content="http://hcw2175.github.io/2018/11/14/IOS微信上Vue单页面应用JSSDK签名失败解决方案/index.html">
+<meta property="og:site_name" content="范TE剑">
+<meta property="og:description" content="背景手机型号：  型号：iphone 7 / iphone xs max版本：ios 10.3.1 / ios 12.1微信版本：WeChat 6.7.3  问题还原：  Vue应用(vue-router)上使用history模式，在某个页面内调用微信JSSDK相关API，如扫码、分享等，使用当前页面URL总会出现签名错误(invalid signature)，导致API调用失败。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-11-15T01:04:42.069Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="IOS微信上Vue单页面应用JSSDK签名失败解决方案">
+<meta name="twitter:description" content="背景手机型号：  型号：iphone 7 / iphone xs max版本：ios 10.3.1 / ios 12.1微信版本：WeChat 6.7.3  问题还原：  Vue应用(vue-router)上使用history模式，在某个页面内调用微信JSSDK相关API，如扫码、分享等，使用当前页面URL总会出现签名错误(invalid signature)，导致API调用失败。">
+  
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+    <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+  
+
+</head>
+</html>
+<body>
+<div id="container">
+  <div id="wrap">
+    <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <nav id="upper-nav" class="inner">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <div class="sub-nav">
+        
+        
+      </div>
+    </nav>
+    <div id="header-title">
+      
+        <h1 id="blog-title-wrap">
+          <a href="/" id="blog-title">范TE剑</a>
+        </h1>
+      
+    </div>
+    <div id="contenedor">
+      <ul class="cube">
+        <li class="cara">范TE剑</li>
+        <li class="cara"></li>
+        <li class="cara"></li>
+        <li class="cara"></li>
+        <li class="cara"></li>
+        <li class="cara"></li>
+      </ul>
+    </div>
+    <nav id="main-nav">
+      
+        <a class="main-nav-link" href="/">首页</a>
+      
+        <a class="main-nav-link" href="/archives">归档</a>
+      
+        <a class="main-nav-link" href="/about">关于</a>
+      
+      <a class="main-nav-link st-search-show-outputs">搜索</a>
+    </nav>
+  </div>
+</header>
+
+    <div class="outer">
+      <section id="main"><article id="post-IOS微信上Vue单页面应用JSSDK签名失败解决方案" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <h3 href="/2018/11/14/IOS微信上Vue单页面应用JSSDK签名失败解决方案/" class="article-date">
+  <time datetime="2018-11-14T05:41:23.000Z" itemprop="datePublished">2018-11-14</time>
+</h3>
+    
+  </div>
+  <div class="article-inner">
+  <div class="curve-down">
+  <div class="fill-content">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      IOS微信上Vue单页面应用JSSDK签名失败解决方案
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>手机型号：</p>
+<blockquote>
+<p>型号：iphone 7 / iphone xs max<br>版本：ios 10.3.1 / ios 12.1<br>微信版本：WeChat 6.7.3</p>
+</blockquote>
+<p>问题还原：</p>
+<blockquote>
+<p>Vue应用(vue-router)上使用history模式，在某个页面内调用微信JSSDK相关API，如扫码、分享等，使用当前页面URL总会出现签名错误(invalid signature)，导致API调用失败。</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="问题根源"><a href="#问题根源" class="headerlink" title="问题根源"></a>问题根源</h2><p>Vue-Router进行路由切换的时候，总是会操作浏览器的历史记录，从而响应页面URL变化。</p>
+<p>在JSSDK文档页面有这么一句话:</p>
+<blockquote>
+<p>同一个url仅需调用一次，对于变化url的SPA的web app可在每次url变化时进行调用,目前Android微信客户端不支持pushState的H5新特性，所以使用pushState来实现web app的页面会导致签名失败，此问题会在Android6.2中修复</p>
+</blockquote>
+<p>但根据多次测试情况来看，情况恰好相反，在Android下直接使用 <code>window.location.href</code> 得出的URL进行签名是完全没问题(可能已升级至Android6.2以上版本)，在IOS上就不行了。</p>
+<p><strong>这是因为在IOS上，无论路由切换到哪个页面，实际真正有效的的签名URL是【第一次进入应用时的URL】</strong>。</p>
+<p>比如进入应用首页是: <code>https://m.app.com</code>，需要使用JSSDK的页面A是：<code>https://m.app.com/product1/123</code>，无论从首页进入到A页面之前，中间跳转过多少次路由，最终签名有效的URL还是首页URL。</p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><h3 id="方案一"><a href="#方案一" class="headerlink" title="方案一"></a>方案一</h3><p>直接粗暴处理方式:</p>
+<p>在进入需要使用JSSDK页面(B)的前一个页面(A)，即 A &gt; B，直接使用 <code>*window.location.href</code> 或 <code>window.open</code> 打开B页面，此时因为B页面是直接刷新方式进入，所以当前B页面URL无论IOS或Android都是可以直接拿来签名的。</p>
+<p>这种方式处理缺点也很明显，如页面刷新抖动太厉害不够平滑过渡，再比如B页面需要从vuex中取出缓存信息，如果这些缓存信息不是通过vuex保存在localstorage的话，取出来的肯定都是空的。</p>
+<h3 id="方案二"><a href="#方案二" class="headerlink" title="方案二"></a>方案二</h3><p>思路：既然IOS仅可使用第一次进入应用的URL来签名，那么在vuex上缓存一个微信签名URL，IOS保存第一次进入应用的URL，Android则缓存为每个页面的URL。签名时，直接从缓存拿出签名URL来处理。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 全局判断是否IOS方法</span><br><span class="line">function isIos()&#123;</span><br><span class="line">  const u = navigator.userAgent;</span><br><span class="line">  return u.indexOf(&quot;iPhone&quot;) &gt; -1 || u.indexOf(&quot;Mac OS&quot;) &gt; -1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>1. 定义vuex缓存</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  state: &#123;</span><br><span class="line">    wechatSignUrl: &quot;&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  </span><br><span class="line">  mutations: &#123;</span><br><span class="line">    setWechatSignUrl(state, wxSignUrl) &#123;</span><br><span class="line">      // 关键点</span><br><span class="line">      // IOS仅记录第一次进入页面时的URL</span><br><span class="line">      // IOS微信切换路由实际URL不变，只能使用第一进入页面的URL进行签名</span><br><span class="line">      if (isIos() &amp;&amp; state.wxSignUrl !== &apos;&apos;) &#123;</span><br><span class="line">        return;</span><br><span class="line">      &#125;</span><br><span class="line">      state.wxSignUrl = wxSignUrl;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  </span><br><span class="line">  getters: &#123;</span><br><span class="line">    getWechatSignUrl: (state) =&gt; state.wxSignUrl</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>关键点在于设置更新微信签名URL判断的地方：首次进入应用页面的时候肯定会触发更新，若是IOS且签名URL已经设置过了，那么就不需要更新设置了，只要不退出或刷新应用，缓存永远都会是首次进入页面URL。</p>
+<p><strong>2. 路由守卫内触发更新签名URL</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">import store form &quot;@/stores&quot;</span><br><span class="line"></span><br><span class="line">// 获取真实有效微信签名URL</span><br><span class="line">function getWechatSignUrl(to)&#123;</span><br><span class="line">    if(isIos()) &#123;</span><br><span class="line">      return window.location.href;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      // 此处$appHost需要自行处理</span><br><span class="line">      return $appHost + to.fullPath</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line">$router.beforeEach((to, from, next) =&gt; &#123;</span><br><span class="line">    store.commit(&quot;setWechatSignUrl&quot;, getWechatSignUrl(to));    </span><br><span class="line">&#125;)</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>在路由守卫内更新签名URL，保证IOS是使用当前页面URL，Android是使用目标路由完整地址再加上域名</p>
+<p><strong>3. 使用签名URL调用JSSDK API</strong></p>
+<p>在使用JSSDK API的页面通过vuex取出缓存的微信签名URL，然后进行签名。</p>
+<p>比如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> store form <span class="string">"@/stores"</span></span><br><span class="line"></span><br><span class="line">...</span><br><span class="line">&#123;</span><br><span class="line">  methods: &#123;</span><br><span class="line">   initWechatShareConfig() &#123;</span><br><span class="line">     <span class="keyword">const</span> that = <span class="keyword">this</span>;</span><br><span class="line">     <span class="keyword">const</span> wxSignUrl = store.getters[<span class="string">'getWechatSignUrl'</span>];</span><br><span class="line">     <span class="keyword">const</span> wxShareConfigs = &#123;</span><br><span class="line">        <span class="comment">// 微信分享配置</span></span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     <span class="comment">// 初始化微信分享</span></span><br><span class="line">     $wechat.share(wxSignUrl, wxShareConfigs);</span><br><span class="line">   &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>$wechat.share 是根据JSSDK文档二次封装的分享方法，内部是根据wxSignUrl先进行签名，然后再调用分享API</p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <div class="article-footer-content">
+        
+        <a data-url="http://hcw2175.github.io/2018/11/14/IOS微信上Vue单页面应用JSSDK签名失败解决方案/" data-id="cjohwyatx0040ip3ik85egsyi" class="article-share-link">分享到</a>
+        
+      </div>
+    </footer>
+  </div>
+  </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/01/11/解决Vue引入百度地图JSSDK：BMap is undefined 问题/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">解决Vue引入百度地图JSSDK：BMap is undefined 问题</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+      
+      <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">近期文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/11/14/IOS微信上Vue单页面应用JSSDK签名失败解决方案/">IOS微信上Vue单页面应用JSSDK签名失败解决方案</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/11/解决Vue引入百度地图JSSDK：BMap is undefined 问题/">解决Vue引入百度地图JSSDK：BMap is undefined 问题</a>
+          </li>
+        
+          <li>
+            <a href="/2017/10/18/如何推送镜像到官方Docker Hub/">如何推送镜像到官方docker</a>
+          </li>
+        
+          <li>
+            <a href="/2017/03/18/阿里云服务器ESC环境（四）-Java、Nginx、Docker安装/">阿里云服务器ESC环境（四） - Java、Nginx、Docker安装</a>
+          </li>
+        
+          <li>
+            <a href="/2017/03/04/阿里云服务器ESC环境（三）-FTP配置/">阿里云服务器ESC环境（三） - FTP配置</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android开发/">Android开发</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AngularJS/">AngularJS</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ESC/">ESC</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/FTP/">FTP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Glide封装/">Glide封装</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nginx/">Nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Retroft2封装/">Retroft2封装</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava封装/">RxJava封装</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSH配置/">SSH配置</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ubuntu/">Ubuntu</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VSFTPD/">VSFTPD</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ionic/">ionic</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ionic入门/">ionic入门</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu-server/">ubuntu server</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/">vue</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/">windows</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/云服务器/">云服务器</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多SSH-Key/">多SSH Key</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/干货集中营/">干货集中营</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/干货集中营，看我开发干货集中营/">干货集中营，看我开发干货集中营</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/微信/">微信</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/微信JSSDK/">微信JSSDK</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/微信支付/">微信支付</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/微信服务号/">微信服务号</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/百度地图/">百度地图</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/看我开发干货集中营/">看我开发干货集中营</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/虚拟机ssh/">虚拟机ssh</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/阿里云/">阿里云</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/阿里云服务器环境/">阿里云服务器环境</a><span class="tag-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+  
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 范TE剑<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      .
+      Theme by <a href="https://github.com/sun11/hexo-theme-paperbox" target="_blank">Paperbox</a>
+    </div>
+  </div>
+</footer>
+  </div>
+  <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+    <a href="/about" class="mobile-nav-link">关于</a>
+  
+  <a href="#search" class="mobile-nav-link st-search-show-outputs">搜索</a>
+</nav>
+
+  
+
+<!-- totop start -->
+<div id="totop">
+	<a title="返回顶部"></a>
+</div>
+<!-- totop end -->
+
+<!-- swiftype search start -->
+
+<!-- swiftype search end -->
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/lrsjng.jquery-qrcode/0.12.0/jquery.qrcode.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+</div>
+</body>
+</html>

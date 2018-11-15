@@ -1,0 +1,314 @@
+
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  
+  <title>阿里云服务器ESC环境（三） - FTP配置 | 范TE剑</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="远程服务器上，使用FTP上传下载文件的场景貌似挺多的，至少系统应用部署包上传到服务器就需要它了。 Ubuntu上文件上传下载用到的工具是vsftpd，VSFTPD代表非常安全的文件传输协议守护程序，是一个开放源代码，轻量级，稳定，最安全，最快的FTP服务器的Unix和Linux操作系统。它是大多数Linux和Unix操作系统（例如RedHat，CentOS，Fedora和Ubuntu）的默认FTP">
+<meta name="keywords" content="Ubuntu,阿里云,云服务器,ESC,FTP,VSFTPD">
+<meta property="og:type" content="article">
+<meta property="og:title" content="阿里云服务器ESC环境（三） - FTP配置">
+<meta property="og:url" content="http://hcw2175.github.io/2017/03/04/阿里云服务器ESC环境（三）-FTP配置/index.html">
+<meta property="og:site_name" content="范TE剑">
+<meta property="og:description" content="远程服务器上，使用FTP上传下载文件的场景貌似挺多的，至少系统应用部署包上传到服务器就需要它了。 Ubuntu上文件上传下载用到的工具是vsftpd，VSFTPD代表非常安全的文件传输协议守护程序，是一个开放源代码，轻量级，稳定，最安全，最快的FTP服务器的Unix和Linux操作系统。它是大多数Linux和Unix操作系统（例如RedHat，CentOS，Fedora和Ubuntu）的默认FTP">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-11-15T00:59:18.061Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="阿里云服务器ESC环境（三） - FTP配置">
+<meta name="twitter:description" content="远程服务器上，使用FTP上传下载文件的场景貌似挺多的，至少系统应用部署包上传到服务器就需要它了。 Ubuntu上文件上传下载用到的工具是vsftpd，VSFTPD代表非常安全的文件传输协议守护程序，是一个开放源代码，轻量级，稳定，最安全，最快的FTP服务器的Unix和Linux操作系统。它是大多数Linux和Unix操作系统（例如RedHat，CentOS，Fedora和Ubuntu）的默认FTP">
+  
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+    <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+  
+
+</head>
+</html>
+<body>
+<div id="container">
+  <div id="wrap">
+    <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <nav id="upper-nav" class="inner">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <div class="sub-nav">
+        
+        
+      </div>
+    </nav>
+    <div id="header-title">
+      
+        <h1 id="blog-title-wrap">
+          <a href="/" id="blog-title">范TE剑</a>
+        </h1>
+      
+    </div>
+    <div id="contenedor">
+      <ul class="cube">
+        <li class="cara">范TE剑</li>
+        <li class="cara"></li>
+        <li class="cara"></li>
+        <li class="cara"></li>
+        <li class="cara"></li>
+        <li class="cara"></li>
+      </ul>
+    </div>
+    <nav id="main-nav">
+      
+        <a class="main-nav-link" href="/">首页</a>
+      
+        <a class="main-nav-link" href="/archives">归档</a>
+      
+        <a class="main-nav-link" href="/about">关于</a>
+      
+      <a class="main-nav-link st-search-show-outputs">搜索</a>
+    </nav>
+  </div>
+</header>
+
+    <div class="outer">
+      <section id="main"><article id="post-阿里云服务器ESC环境（三）-FTP配置" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <h3 href="/2017/03/04/阿里云服务器ESC环境（三）-FTP配置/" class="article-date">
+  <time datetime="2017-03-04T14:45:32.000Z" itemprop="datePublished">2017-03-04</time>
+</h3>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/阿里云服务器/">阿里云服务器</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+  <div class="curve-down">
+  <div class="fill-content">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      阿里云服务器ESC环境（三） - FTP配置
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+        <p>远程服务器上，使用FTP上传下载文件的场景貌似挺多的，至少系统应用部署包上传到服务器就需要它了。</p>
+<p>Ubuntu上文件上传下载用到的工具是<code>vsftpd</code>，VSFTPD代表非常安全的文件传输协议守护程序，是一个开放源代码，轻量级，稳定，最安全，最快的FTP服务器的Unix和Linux操作系统。它是大多数Linux和Unix操作系统（例如RedHat，CentOS，Fedora和Ubuntu）的默认FTP服务器，同时支持IPv6和SSL，因此，我们可以使用VSFTPD来组织设置安全的FTP服务器。它是根据GPL许可的，完全免费。</p>
+<a id="more"></a>
+<h2 id="安装vsftpd"><a href="#安装vsftpd" class="headerlink" title="安装vsftpd"></a>安装vsftpd</h2><p><code>vsftpd</code> 默认是存在于Ubuntu的软件仓库中的，所以只需要在使用命令直接安装即可：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install vsftpd</span><br></pre></td></tr></table></figure>
+<h2 id="创建FTP用户"><a href="#创建FTP用户" class="headerlink" title="创建FTP用户"></a>创建FTP用户</h2><p>为FTP创建特定用户，一是为了避免匿名用户登录，二是禁止用户越权访问其它文件目录内容。</p>
+<p>FTP用户拥有以下特性：</p>
+<ul>
+<li>禁止SSH登陆到系统，只允许FTP登录</li>
+<li>禁止访问非当前用户目录下的内容</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 新建用户以及对应的用户目录，禁止登录系统</span></span><br><span class="line">sudo useradd -d /home/[username] -s /sbin/nologin -m [username]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 更改密码</span></span><br><span class="line">sudo passwd [username]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 调整权限</span></span><br><span class="line">sudo chmod a-w /home/[username]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建data目录，避免500错误。</span></span><br><span class="line"><span class="comment"># data目录为ftp上传目录</span></span><br><span class="line">sudo mkdir /home/[username]/data</span><br><span class="line">sudo chown -R [username]:[username] /home/[username]/data</span><br></pre></td></tr></table></figure>
+<p>创建文件 <code>/etc/vsftpd.allowed_users</code>，写入新建的用户运行该用户FTP登录：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建文件</span></span><br><span class="line">touch /etc/vsftpd.allowed_users</span><br><span class="line"></span><br><span class="line"><span class="comment"># 编辑文件</span></span><br><span class="line">nano /etc/vsftpd.allowed_users</span><br><span class="line"></span><br><span class="line"><span class="comment"># 写入新建用户名并重启vsftpd</span></span><br><span class="line"><span class="comment"># [username]</span></span><br><span class="line">sudo service vsftpd restart</span><br></pre></td></tr></table></figure>
+<h2 id="配置FTP"><a href="#配置FTP" class="headerlink" title="配置FTP"></a>配置FTP</h2><p><code>vsftpd</code>的配置文件位于： <code>/etc/vsftpd.conf</code>。</p>
+<p>通过编辑该文件完成以下几项配置：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 禁止匿名用户</span></span><br><span class="line">anonymous_enable=NO</span><br><span class="line"></span><br><span class="line"><span class="comment"># 允许写入</span></span><br><span class="line">write_enable=YES</span><br><span class="line"></span><br><span class="line"><span class="comment"># ascii编码上传下载</span></span><br><span class="line">ascii_upload_enable=YES</span><br><span class="line">ascii_download_enable=YES</span><br><span class="line"></span><br><span class="line"><span class="comment"># 欢迎提示</span></span><br><span class="line">ftpd_banner=您正在登录的是IOT-SERVER前置机FTP服务</span><br><span class="line"></span><br><span class="line"><span class="comment"># 用户只能访问限制的目录</span></span><br><span class="line">chroot_local_user=YES</span><br><span class="line"></span><br><span class="line"><span class="comment"># 用户登录后默认目录</span></span><br><span class="line">local_root=/home/usftper/data</span><br><span class="line"></span><br><span class="line"><span class="comment"># 是否使用被动模式的数据连接，如果客户机在防火墙后，请开启为YES</span></span><br><span class="line">pasv_enable=YES</span><br><span class="line"><span class="comment"># 设置被动模式后的数据连接端口范围在n和m之间,建议为50000－60000端口</span></span><br><span class="line"><span class="comment"># 别忘了阿里控制台ESC中安全组运行TCP端口：50000/60000</span></span><br><span class="line">pasv_min_port=50000</span><br><span class="line">pasv_max_port=60000</span><br><span class="line"></span><br><span class="line"><span class="comment"># 末尾新增：只允许对应用户</span></span><br><span class="line">userlist_deny=NO</span><br><span class="line">userlist_enable=YES</span><br><span class="line">userlist_file=/etc/vsftpd.allowed_users</span><br></pre></td></tr></table></figure>
+<p>保存退出，重启FTP服务。</p>
+<blockquote>
+<p>更多配置请参考最后附录。</p>
+</blockquote>
+<h2 id="连接FTP"><a href="#连接FTP" class="headerlink" title="连接FTP"></a>连接FTP</h2><p>推荐使用工具： <code>FlieZilla</code></p>
+<p>在软件中添加站点信息（服务器IP，FTP用户密码），传输模式选择 <code>被动</code>。</p>
+<p>若出现 <code>530 Login incorrect.</code> 错误：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 编辑文件</span></span><br><span class="line">sudo nano /etc/pam.d/vsftpd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 注释禁用以下内容</span></span><br><span class="line"><span class="comment"># auth    required pam_shells.so</span></span><br></pre></td></tr></table></figure>
+<p>保存重启FTP服务</p>
+<h2 id="附录：配置属性"><a href="#附录：配置属性" class="headerlink" title="附录：配置属性"></a>附录：配置属性</h2><p>以下属性可能某些版本是没有的，仅供参考：</p>
+<p><code>`</code>bash</p>
+<h1 id="是否允许匿名登录FTP服务器，默认设置为YES允许"><a href="#是否允许匿名登录FTP服务器，默认设置为YES允许" class="headerlink" title="是否允许匿名登录FTP服务器，默认设置为YES允许"></a>是否允许匿名登录FTP服务器，默认设置为YES允许</h1><h1 id="用户可使用用户名ftp或anonymous进行ftp登录，口令为用户的E-mail地址。"><a href="#用户可使用用户名ftp或anonymous进行ftp登录，口令为用户的E-mail地址。" class="headerlink" title="用户可使用用户名ftp或anonymous进行ftp登录，口令为用户的E-mail地址。"></a>用户可使用用户名ftp或anonymous进行ftp登录，口令为用户的E-mail地址。</h1><h1 id="如不允许匿名访问则设置为NO"><a href="#如不允许匿名访问则设置为NO" class="headerlink" title="如不允许匿名访问则设置为NO"></a>如不允许匿名访问则设置为NO</h1><p>anonymous_enable=YES</p>
+<h1 id="是否允许本地用户-即linux系统中的用户帐号-登录FTP服务器，默认设置为YES允许"><a href="#是否允许本地用户-即linux系统中的用户帐号-登录FTP服务器，默认设置为YES允许" class="headerlink" title="是否允许本地用户(即linux系统中的用户帐号)登录FTP服务器，默认设置为YES允许"></a>是否允许本地用户(即linux系统中的用户帐号)登录FTP服务器，默认设置为YES允许</h1><h1 id="本地用户登录后会进入用户主目录，而匿名用户登录后进入匿名用户的下载目录-var-ftp-pub"><a href="#本地用户登录后会进入用户主目录，而匿名用户登录后进入匿名用户的下载目录-var-ftp-pub" class="headerlink" title="本地用户登录后会进入用户主目录，而匿名用户登录后进入匿名用户的下载目录/var/ftp/pub"></a>本地用户登录后会进入用户主目录，而匿名用户登录后进入匿名用户的下载目录/var/ftp/pub</h1><h1 id="若只允许匿名用户访问，前面加上-注释掉即可阻止本地用户访问FTP服务器"><a href="#若只允许匿名用户访问，前面加上-注释掉即可阻止本地用户访问FTP服务器" class="headerlink" title="若只允许匿名用户访问，前面加上#注释掉即可阻止本地用户访问FTP服务器"></a>若只允许匿名用户访问，前面加上#注释掉即可阻止本地用户访问FTP服务器</h1><p>local_enable=YES</p>
+<h1 id="是否允许本地用户对FTP服务器文件具有写权限，默认设置为YES允许"><a href="#是否允许本地用户对FTP服务器文件具有写权限，默认设置为YES允许" class="headerlink" title="是否允许本地用户对FTP服务器文件具有写权限，默认设置为YES允许"></a>是否允许本地用户对FTP服务器文件具有写权限，默认设置为YES允许</h1><p>write_enable=YES </p>
+<h1 id="掩码，本地用户默认掩码为077"><a href="#掩码，本地用户默认掩码为077" class="headerlink" title="掩码，本地用户默认掩码为077"></a>掩码，本地用户默认掩码为077</h1><h1 id="你可以设置本地用户的文件掩码为缺省022，也可根据个人喜好将其设置为其他值"><a href="#你可以设置本地用户的文件掩码为缺省022，也可根据个人喜好将其设置为其他值" class="headerlink" title="你可以设置本地用户的文件掩码为缺省022，也可根据个人喜好将其设置为其他值"></a>你可以设置本地用户的文件掩码为缺省022，也可根据个人喜好将其设置为其他值</h1><p>#local_umask=022</p>
+<h1 id="是否允许匿名用户上传文件，须将全局的write-enable-YES。默认为YES"><a href="#是否允许匿名用户上传文件，须将全局的write-enable-YES。默认为YES" class="headerlink" title="是否允许匿名用户上传文件，须将全局的write_enable=YES。默认为YES"></a>是否允许匿名用户上传文件，须将全局的write_enable=YES。默认为YES</h1><p>#anon_upload_enable=YES</p>
+<h1 id="是否允许匿名用户创建新文件夹"><a href="#是否允许匿名用户创建新文件夹" class="headerlink" title="是否允许匿名用户创建新文件夹"></a>是否允许匿名用户创建新文件夹</h1><p>#anon_mkdir_write_enable=YES </p>
+<h1 id="是否激活目录欢迎信息功能"><a href="#是否激活目录欢迎信息功能" class="headerlink" title="是否激活目录欢迎信息功能"></a>是否激活目录欢迎信息功能</h1><h1 id="当用户用CMD模式首次访问服务器上某个目录时，FTP服务器将显示欢迎信息"><a href="#当用户用CMD模式首次访问服务器上某个目录时，FTP服务器将显示欢迎信息" class="headerlink" title="当用户用CMD模式首次访问服务器上某个目录时，FTP服务器将显示欢迎信息"></a>当用户用CMD模式首次访问服务器上某个目录时，FTP服务器将显示欢迎信息</h1><h1 id="默认情况下，欢迎信息是通过该目录下的-message文件获得的"><a href="#默认情况下，欢迎信息是通过该目录下的-message文件获得的" class="headerlink" title="默认情况下，欢迎信息是通过该目录下的.message文件获得的"></a>默认情况下，欢迎信息是通过该目录下的.message文件获得的</h1><h1 id="此文件保存自定义的欢迎信息，由用户自己建立"><a href="#此文件保存自定义的欢迎信息，由用户自己建立" class="headerlink" title="此文件保存自定义的欢迎信息，由用户自己建立"></a>此文件保存自定义的欢迎信息，由用户自己建立</h1><p>#dirmessage_enable=YES</p>
+<h1 id="是否让系统自动维护上传和下载的日志文件"><a href="#是否让系统自动维护上传和下载的日志文件" class="headerlink" title="是否让系统自动维护上传和下载的日志文件"></a>是否让系统自动维护上传和下载的日志文件</h1><h1 id="默认情况该日志文件为-var-log-vsftpd-log-也可以通过下面的xferlog-file选项对其进行设定"><a href="#默认情况该日志文件为-var-log-vsftpd-log-也可以通过下面的xferlog-file选项对其进行设定" class="headerlink" title="默认情况该日志文件为/var/log/vsftpd.log,也可以通过下面的xferlog_file选项对其进行设定"></a>默认情况该日志文件为/var/log/vsftpd.log,也可以通过下面的xferlog_file选项对其进行设定</h1><h1 id="默认值为NO"><a href="#默认值为NO" class="headerlink" title="默认值为NO"></a>默认值为NO</h1><p>xferlog_enable=YES</p>
+<h1 id="Make-sure-PORT-transfer-connections-originate-from-port-20-ftp-data"><a href="#Make-sure-PORT-transfer-connections-originate-from-port-20-ftp-data" class="headerlink" title="Make sure PORT transfer connections originate from port 20 (ftp-data)."></a>Make sure PORT transfer connections originate from port 20 (ftp-data).</h1><h1 id="是否设定FTP服务器将启用FTP数据端口的连接请求"><a href="#是否设定FTP服务器将启用FTP数据端口的连接请求" class="headerlink" title="是否设定FTP服务器将启用FTP数据端口的连接请求"></a>是否设定FTP服务器将启用FTP数据端口的连接请求</h1><h1 id="ftp-data数据传输，21为连接控制端口"><a href="#ftp-data数据传输，21为连接控制端口" class="headerlink" title="ftp-data数据传输，21为连接控制端口"></a>ftp-data数据传输，21为连接控制端口</h1><p>connect_from_port_20=YES</p>
+<h1 id="设定是否允许改变上传文件的属主，与下面一个设定项配合使用"><a href="#设定是否允许改变上传文件的属主，与下面一个设定项配合使用" class="headerlink" title="设定是否允许改变上传文件的属主，与下面一个设定项配合使用"></a>设定是否允许改变上传文件的属主，与下面一个设定项配合使用</h1><h1 id="注意，不推荐使用root用户上传文件"><a href="#注意，不推荐使用root用户上传文件" class="headerlink" title="注意，不推荐使用root用户上传文件"></a>注意，不推荐使用root用户上传文件</h1><p>#chown_uploads=YES</p>
+<h1 id="设置想要改变的上传文件的属主，如果需要，则输入一个系统用户名"><a href="#设置想要改变的上传文件的属主，如果需要，则输入一个系统用户名" class="headerlink" title="设置想要改变的上传文件的属主，如果需要，则输入一个系统用户名"></a>设置想要改变的上传文件的属主，如果需要，则输入一个系统用户名</h1><h1 id="可以把上传的文件都改成root属主。whoever：任何人"><a href="#可以把上传的文件都改成root属主。whoever：任何人" class="headerlink" title="可以把上传的文件都改成root属主。whoever：任何人"></a>可以把上传的文件都改成root属主。whoever：任何人</h1><p>#chown_username=whoever</p>
+<h1 id="设定系统维护记录FTP服务器上传和下载情况的日志文件"><a href="#设定系统维护记录FTP服务器上传和下载情况的日志文件" class="headerlink" title="设定系统维护记录FTP服务器上传和下载情况的日志文件"></a>设定系统维护记录FTP服务器上传和下载情况的日志文件</h1><h1 id="var-log-vsftpd-log是默认的，也可以另设其它"><a href="#var-log-vsftpd-log是默认的，也可以另设其它" class="headerlink" title="/var/log/vsftpd.log是默认的，也可以另设其它"></a>/var/log/vsftpd.log是默认的，也可以另设其它</h1><p>#xferlog_file=/var/log/vsftpd.log</p>
+<h1 id="是否以标准xferlog的格式书写传输日志文件"><a href="#是否以标准xferlog的格式书写传输日志文件" class="headerlink" title="是否以标准xferlog的格式书写传输日志文件"></a>是否以标准xferlog的格式书写传输日志文件</h1><h1 id="默认为-var-log-xferlog，也可以通过xferlog-file选项对其进行设定"><a href="#默认为-var-log-xferlog，也可以通过xferlog-file选项对其进行设定" class="headerlink" title="默认为/var/log/xferlog，也可以通过xferlog_file选项对其进行设定"></a>默认为/var/log/xferlog，也可以通过xferlog_file选项对其进行设定</h1><h1 id="默认值为NO-1"><a href="#默认值为NO-1" class="headerlink" title="默认值为NO"></a>默认值为NO</h1><p>#xferlog_std_format=YES</p>
+<h1 id="以下是附加配置，添加相应的选项将启用相应的设置"><a href="#以下是附加配置，添加相应的选项将启用相应的设置" class="headerlink" title="以下是附加配置，添加相应的选项将启用相应的设置"></a>以下是附加配置，添加相应的选项将启用相应的设置</h1><h1 id="是否生成两个相似的日志文件"><a href="#是否生成两个相似的日志文件" class="headerlink" title="是否生成两个相似的日志文件"></a>是否生成两个相似的日志文件</h1><h1 id="默认在-var-log-xferlog和-var-log-vsftpd-log目录下"><a href="#默认在-var-log-xferlog和-var-log-vsftpd-log目录下" class="headerlink" title="默认在/var/log/xferlog和/var/log/vsftpd.log目录下"></a>默认在/var/log/xferlog和/var/log/vsftpd.log目录下</h1><h1 id="前者是wu-ftpd类型的传输日志，可以利用标准日志工具对其进行分析；后者是vsftpd类型的日志"><a href="#前者是wu-ftpd类型的传输日志，可以利用标准日志工具对其进行分析；后者是vsftpd类型的日志" class="headerlink" title="前者是wu_ftpd类型的传输日志，可以利用标准日志工具对其进行分析；后者是vsftpd类型的日志"></a>前者是wu_ftpd类型的传输日志，可以利用标准日志工具对其进行分析；后者是vsftpd类型的日志</h1><p>#dual_log_enable</p>
+<h1 id="是否将原本输出到-var-log-vsftpd-log中的日志，输出到系统日志"><a href="#是否将原本输出到-var-log-vsftpd-log中的日志，输出到系统日志" class="headerlink" title="是否将原本输出到/var/log/vsftpd.log中的日志，输出到系统日志"></a>是否将原本输出到/var/log/vsftpd.log中的日志，输出到系统日志</h1><p>#syslog_enable</p>
+<h1 id="设置数据传输中断间隔时间，此语句表示空闲的用户会话中断时间为600秒"><a href="#设置数据传输中断间隔时间，此语句表示空闲的用户会话中断时间为600秒" class="headerlink" title="设置数据传输中断间隔时间，此语句表示空闲的用户会话中断时间为600秒"></a>设置数据传输中断间隔时间，此语句表示空闲的用户会话中断时间为600秒</h1><h1 id="即当数据传输结束后，用户连接FTP服务器的时间不应超过600秒。可以根据实际情况对该值进行修改"><a href="#即当数据传输结束后，用户连接FTP服务器的时间不应超过600秒。可以根据实际情况对该值进行修改" class="headerlink" title="即当数据传输结束后，用户连接FTP服务器的时间不应超过600秒。可以根据实际情况对该值进行修改"></a>即当数据传输结束后，用户连接FTP服务器的时间不应超过600秒。可以根据实际情况对该值进行修改</h1><p>#idle_session_timeout=600</p>
+<h1 id="设置数据连接超时时间，该语句表示数据连接超时时间为120秒，可根据实际情况对其个修改"><a href="#设置数据连接超时时间，该语句表示数据连接超时时间为120秒，可根据实际情况对其个修改" class="headerlink" title="设置数据连接超时时间，该语句表示数据连接超时时间为120秒，可根据实际情况对其个修改"></a>设置数据连接超时时间，该语句表示数据连接超时时间为120秒，可根据实际情况对其个修改</h1><p>#data_connection_timeout=120</p>
+<h1 id="运行vsftpd需要的非特权系统用户，缺省是nobody"><a href="#运行vsftpd需要的非特权系统用户，缺省是nobody" class="headerlink" title="运行vsftpd需要的非特权系统用户，缺省是nobody"></a>运行vsftpd需要的非特权系统用户，缺省是nobody</h1><p>#nopriv_user=ftpsecure</p>
+<h1 id="是否识别异步ABOR请求。"><a href="#是否识别异步ABOR请求。" class="headerlink" title="是否识别异步ABOR请求。"></a>是否识别异步ABOR请求。</h1><h1 id="如果FTP-client会下达“async-ABOR”这个指令时，这个设定才需要启用"><a href="#如果FTP-client会下达“async-ABOR”这个指令时，这个设定才需要启用" class="headerlink" title="如果FTP client会下达“async ABOR”这个指令时，这个设定才需要启用"></a>如果FTP client会下达“async ABOR”这个指令时，这个设定才需要启用</h1><h1 id="而一般此设定并不安全，所以通常将其取消"><a href="#而一般此设定并不安全，所以通常将其取消" class="headerlink" title="而一般此设定并不安全，所以通常将其取消"></a>而一般此设定并不安全，所以通常将其取消</h1><p>#async_abor_enable=YES</p>
+<h1 id="是否以ASCII方式传输数据。默认情况下，服务器会忽略ASCII方式的请求。"><a href="#是否以ASCII方式传输数据。默认情况下，服务器会忽略ASCII方式的请求。" class="headerlink" title="是否以ASCII方式传输数据。默认情况下，服务器会忽略ASCII方式的请求。"></a>是否以ASCII方式传输数据。默认情况下，服务器会忽略ASCII方式的请求。</h1><h1 id="启用此选项将允许服务器以ASCII方式传输数据"><a href="#启用此选项将允许服务器以ASCII方式传输数据" class="headerlink" title="启用此选项将允许服务器以ASCII方式传输数据"></a>启用此选项将允许服务器以ASCII方式传输数据</h1><h1 id="不过，这样可能会导致由”SIZE-big-file”方式引起的DoS攻击"><a href="#不过，这样可能会导致由”SIZE-big-file”方式引起的DoS攻击" class="headerlink" title="不过，这样可能会导致由”SIZE /big/file”方式引起的DoS攻击"></a>不过，这样可能会导致由”SIZE /big/file”方式引起的DoS攻击</h1><p>#ascii_upload_enable=YES</p>
+<p>#ascii_download_enable=YES</p>
+<h1 id="登录FTP服务器时显示的欢迎信息"><a href="#登录FTP服务器时显示的欢迎信息" class="headerlink" title="登录FTP服务器时显示的欢迎信息"></a>登录FTP服务器时显示的欢迎信息</h1><h1 id="如有需要，可在更改目录欢迎信息的目录下创建名为-message的文件，并写入欢迎信息保存后"><a href="#如有需要，可在更改目录欢迎信息的目录下创建名为-message的文件，并写入欢迎信息保存后" class="headerlink" title="如有需要，可在更改目录欢迎信息的目录下创建名为.message的文件，并写入欢迎信息保存后"></a>如有需要，可在更改目录欢迎信息的目录下创建名为.message的文件，并写入欢迎信息保存后</h1><p>#ftpd_banner=Welcome to blah FTP service.</p>
+<h1 id="黑名单设置。如果很讨厌某些email-address，就可以使用此设定来取消他的登录权限"><a href="#黑名单设置。如果很讨厌某些email-address，就可以使用此设定来取消他的登录权限" class="headerlink" title="黑名单设置。如果很讨厌某些email address，就可以使用此设定来取消他的登录权限"></a>黑名单设置。如果很讨厌某些email address，就可以使用此设定来取消他的登录权限</h1><h1 id="可以将某些特殊的email-address抵挡住。"><a href="#可以将某些特殊的email-address抵挡住。" class="headerlink" title="可以将某些特殊的email address抵挡住。"></a>可以将某些特殊的email address抵挡住。</h1><p>#deny_email_enable=YES</p>
+<h1 id="当上面的deny-email-enable-YES时，可以利用这个设定项来规定哪些邮件地址不可登录vsftpd服务器"><a href="#当上面的deny-email-enable-YES时，可以利用这个设定项来规定哪些邮件地址不可登录vsftpd服务器" class="headerlink" title="当上面的deny_email_enable=YES时，可以利用这个设定项来规定哪些邮件地址不可登录vsftpd服务器"></a>当上面的deny_email_enable=YES时，可以利用这个设定项来规定哪些邮件地址不可登录vsftpd服务器</h1><h1 id="此文件需用户自己创建，一行一个email-address即可"><a href="#此文件需用户自己创建，一行一个email-address即可" class="headerlink" title="此文件需用户自己创建，一行一个email address即可"></a>此文件需用户自己创建，一行一个email address即可</h1><p>#banned_email_file=/etc/vsftpd/banned_emails</p>
+<h1 id="用户登录FTP服务器后是否具有访问自己目录以外的其他文件的权限"><a href="#用户登录FTP服务器后是否具有访问自己目录以外的其他文件的权限" class="headerlink" title="用户登录FTP服务器后是否具有访问自己目录以外的其他文件的权限"></a>用户登录FTP服务器后是否具有访问自己目录以外的其他文件的权限</h1><h1 id="设置为YES时，用户被锁定在自己的home目录中，vsftpd将在下面chroot-list-file选项值的位置寻找chroot-list文件"><a href="#设置为YES时，用户被锁定在自己的home目录中，vsftpd将在下面chroot-list-file选项值的位置寻找chroot-list文件" class="headerlink" title="设置为YES时，用户被锁定在自己的home目录中，vsftpd将在下面chroot_list_file选项值的位置寻找chroot_list文件"></a>设置为YES时，用户被锁定在自己的home目录中，vsftpd将在下面chroot_list_file选项值的位置寻找chroot_list文件</h1><h1 id="必须与下面的设置项配合"><a href="#必须与下面的设置项配合" class="headerlink" title="必须与下面的设置项配合"></a>必须与下面的设置项配合</h1><p>#chroot_list_enable=YES</p>
+<h1 id="被列入此文件的用户，在登录后将不能切换到自己目录以外的其他目录"><a href="#被列入此文件的用户，在登录后将不能切换到自己目录以外的其他目录" class="headerlink" title="被列入此文件的用户，在登录后将不能切换到自己目录以外的其他目录"></a>被列入此文件的用户，在登录后将不能切换到自己目录以外的其他目录</h1><h1 id="从而有利于FTP服务器的安全管理和隐私保护。此文件需自己建立"><a href="#从而有利于FTP服务器的安全管理和隐私保护。此文件需自己建立" class="headerlink" title="从而有利于FTP服务器的安全管理和隐私保护。此文件需自己建立"></a>从而有利于FTP服务器的安全管理和隐私保护。此文件需自己建立</h1><p>#chroot_list_file=/etc/vsftpd/chroot_list</p>
+<h1 id="是否允许递归查询。默认为关闭，以防止远程用户造成过量的I-O"><a href="#是否允许递归查询。默认为关闭，以防止远程用户造成过量的I-O" class="headerlink" title="是否允许递归查询。默认为关闭，以防止远程用户造成过量的I/O"></a>是否允许递归查询。默认为关闭，以防止远程用户造成过量的I/O</h1><p>#ls_recurse_enable=YES</p>
+<h1 id="是否允许监听。"><a href="#是否允许监听。" class="headerlink" title="是否允许监听。"></a>是否允许监听。</h1><h1 id="如果设置为YES，则vsftpd将以独立模式运行，由vsftpd自己监听和处理IPv4端口的连接请求"><a href="#如果设置为YES，则vsftpd将以独立模式运行，由vsftpd自己监听和处理IPv4端口的连接请求" class="headerlink" title="如果设置为YES，则vsftpd将以独立模式运行，由vsftpd自己监听和处理IPv4端口的连接请求"></a>如果设置为YES，则vsftpd将以独立模式运行，由vsftpd自己监听和处理IPv4端口的连接请求</h1><p>listen=YES</p>
+<h1 id="设定是否支持IPV6。如要同时监听IPv4和IPv6端口，"><a href="#设定是否支持IPV6。如要同时监听IPv4和IPv6端口，" class="headerlink" title="设定是否支持IPV6。如要同时监听IPv4和IPv6端口，"></a>设定是否支持IPV6。如要同时监听IPv4和IPv6端口，</h1><h1 id="则必须运行两套vsftpd，采用两套配置文件"><a href="#则必须运行两套vsftpd，采用两套配置文件" class="headerlink" title="则必须运行两套vsftpd，采用两套配置文件"></a>则必须运行两套vsftpd，采用两套配置文件</h1><h1 id="同时确保其中有一个监听选项是被注释掉的"><a href="#同时确保其中有一个监听选项是被注释掉的" class="headerlink" title="同时确保其中有一个监听选项是被注释掉的"></a>同时确保其中有一个监听选项是被注释掉的</h1><p>#listen_ipv6=YES</p>
+<h1 id="设置PAM外挂模块提供的认证服务所使用的配置文件名，即-etc-pam-d-vsftpd文件"><a href="#设置PAM外挂模块提供的认证服务所使用的配置文件名，即-etc-pam-d-vsftpd文件" class="headerlink" title="设置PAM外挂模块提供的认证服务所使用的配置文件名，即/etc/pam.d/vsftpd文件"></a>设置PAM外挂模块提供的认证服务所使用的配置文件名，即/etc/pam.d/vsftpd文件</h1><h1 id="此文件中file-etc-vsftpd-ftpusers字段，说明了PAM模块能抵挡的帐号内容来自文件-etc-vsftpd-ftpusers中"><a href="#此文件中file-etc-vsftpd-ftpusers字段，说明了PAM模块能抵挡的帐号内容来自文件-etc-vsftpd-ftpusers中" class="headerlink" title="此文件中file=/etc/vsftpd/ftpusers字段，说明了PAM模块能抵挡的帐号内容来自文件/etc/vsftpd/ftpusers中"></a>此文件中file=/etc/vsftpd/ftpusers字段，说明了PAM模块能抵挡的帐号内容来自文件/etc/vsftpd/ftpusers中</h1><p>#pam_service_name=vsftpd</p>
+<h1 id="是否允许ftpusers文件中的用户登录FTP服务器，默认为NO"><a href="#是否允许ftpusers文件中的用户登录FTP服务器，默认为NO" class="headerlink" title="是否允许ftpusers文件中的用户登录FTP服务器，默认为NO"></a>是否允许ftpusers文件中的用户登录FTP服务器，默认为NO</h1><h1 id="若此项设为YES，则user-list文件中的用户允许登录FTP服务器"><a href="#若此项设为YES，则user-list文件中的用户允许登录FTP服务器" class="headerlink" title="若此项设为YES，则user_list文件中的用户允许登录FTP服务器"></a>若此项设为YES，则user_list文件中的用户允许登录FTP服务器</h1><h1 id="而如果同时设置了userlist-deny-YES，则user-list文件中的用户将不允许登录FTP服务器，甚至连输入密码提示信息都没有"><a href="#而如果同时设置了userlist-deny-YES，则user-list文件中的用户将不允许登录FTP服务器，甚至连输入密码提示信息都没有" class="headerlink" title="而如果同时设置了userlist_deny=YES，则user_list文件中的用户将不允许登录FTP服务器，甚至连输入密码提示信息都没有"></a>而如果同时设置了userlist_deny=YES，则user_list文件中的用户将不允许登录FTP服务器，甚至连输入密码提示信息都没有</h1><p>#userlist_enable=YES/NO</p>
+<h1 id="设置是否阻扯user-list文件中的用户登录FTP服务器，默认为YES"><a href="#设置是否阻扯user-list文件中的用户登录FTP服务器，默认为YES" class="headerlink" title="设置是否阻扯user_list文件中的用户登录FTP服务器，默认为YES"></a>设置是否阻扯user_list文件中的用户登录FTP服务器，默认为YES</h1><p>#userlist_deny=YES/NO</p>
+<h1 id="是否使用tcp-wrappers作为主机访问控制方式。"><a href="#是否使用tcp-wrappers作为主机访问控制方式。" class="headerlink" title="是否使用tcp_wrappers作为主机访问控制方式。"></a>是否使用tcp_wrappers作为主机访问控制方式。</h1><h1 id="tcp-wrappers可以实现linux系统中网络服务的基于主机地址的访问控制"><a href="#tcp-wrappers可以实现linux系统中网络服务的基于主机地址的访问控制" class="headerlink" title="tcp_wrappers可以实现linux系统中网络服务的基于主机地址的访问控制"></a>tcp_wrappers可以实现linux系统中网络服务的基于主机地址的访问控制</h1><h1 id="在-etc目录中的hosts-allow和hosts-deny两个文件用于设置tcp-wrappers的访问控制"><a href="#在-etc目录中的hosts-allow和hosts-deny两个文件用于设置tcp-wrappers的访问控制" class="headerlink" title="在/etc目录中的hosts.allow和hosts.deny两个文件用于设置tcp_wrappers的访问控制"></a>在/etc目录中的hosts.allow和hosts.deny两个文件用于设置tcp_wrappers的访问控制</h1><h1 id="前者设置允许访问记录，后者设置拒绝访问记录。"><a href="#前者设置允许访问记录，后者设置拒绝访问记录。" class="headerlink" title="前者设置允许访问记录，后者设置拒绝访问记录。"></a>前者设置允许访问记录，后者设置拒绝访问记录。</h1><h1 id="如想限制某些主机对FTP服务器192-168-57-2的匿名访问，编缉-etc-hosts-allow文件，如在下面增加两行命令："><a href="#如想限制某些主机对FTP服务器192-168-57-2的匿名访问，编缉-etc-hosts-allow文件，如在下面增加两行命令：" class="headerlink" title="如想限制某些主机对FTP服务器192.168.57.2的匿名访问，编缉/etc/hosts.allow文件，如在下面增加两行命令："></a>如想限制某些主机对FTP服务器192.168.57.2的匿名访问，编缉/etc/hosts.allow文件，如在下面增加两行命令：</h1><h1 id="vsftpd-192-168-57-1-DENY-和vsftpd-192-168-57-9-DENY"><a href="#vsftpd-192-168-57-1-DENY-和vsftpd-192-168-57-9-DENY" class="headerlink" title="vsftpd:192.168.57.1:DENY 和vsftpd:192.168.57.9:DENY"></a>vsftpd:192.168.57.1:DENY 和vsftpd:192.168.57.9:DENY</h1><h1 id="表明限制IP为192-168-57-1-192-168-57-9主机访问IP为192-168-57-2的FTP服务器"><a href="#表明限制IP为192-168-57-1-192-168-57-9主机访问IP为192-168-57-2的FTP服务器" class="headerlink" title="表明限制IP为192.168.57.1/192.168.57.9主机访问IP为192.168.57.2的FTP服务器"></a>表明限制IP为192.168.57.1/192.168.57.9主机访问IP为192.168.57.2的FTP服务器</h1><h1 id="此时FTP服务器虽可以PING通，但无法连接"><a href="#此时FTP服务器虽可以PING通，但无法连接" class="headerlink" title="此时FTP服务器虽可以PING通，但无法连接"></a>此时FTP服务器虽可以PING通，但无法连接</h1><p>tcp_wrappers=YES</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <div class="article-footer-content">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ESC/">ESC</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/FTP/">FTP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ubuntu/">Ubuntu</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VSFTPD/">VSFTPD</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/云服务器/">云服务器</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/阿里云/">阿里云</a></li></ul>
+
+        <a data-url="http://hcw2175.github.io/2017/03/04/阿里云服务器ESC环境（三）-FTP配置/" data-id="cjohwyasv000mip3i7tl6m0xj" class="article-share-link">分享到</a>
+        
+      </div>
+    </footer>
+  </div>
+  </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/03/18/阿里云服务器ESC环境（四）-Java、Nginx、Docker安装/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">
+        
+          阿里云服务器ESC环境（四） - Java、Nginx、Docker安装
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/03/02/阿里云服务器ESC环境（二）-SSH安全配置/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">阿里云服务器ESC环境（二） - SSH安全配置</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+      
+      <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">近期文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/11/14/IOS微信上Vue单页面应用JSSDK签名失败解决方案/">IOS微信上Vue单页面应用JSSDK签名失败解决方案</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/11/解决Vue引入百度地图JSSDK：BMap is undefined 问题/">解决Vue引入百度地图JSSDK：BMap is undefined 问题</a>
+          </li>
+        
+          <li>
+            <a href="/2017/10/18/如何推送镜像到官方Docker Hub/">如何推送镜像到官方docker</a>
+          </li>
+        
+          <li>
+            <a href="/2017/03/18/阿里云服务器ESC环境（四）-Java、Nginx、Docker安装/">阿里云服务器ESC环境（四） - Java、Nginx、Docker安装</a>
+          </li>
+        
+          <li>
+            <a href="/2017/03/04/阿里云服务器ESC环境（三）-FTP配置/">阿里云服务器ESC环境（三） - FTP配置</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android开发/">Android开发</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AngularJS/">AngularJS</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ESC/">ESC</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/FTP/">FTP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Glide封装/">Glide封装</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nginx/">Nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Retroft2封装/">Retroft2封装</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava封装/">RxJava封装</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSH配置/">SSH配置</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ubuntu/">Ubuntu</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VSFTPD/">VSFTPD</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ionic/">ionic</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ionic入门/">ionic入门</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu-server/">ubuntu server</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/">vue</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/">windows</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/云服务器/">云服务器</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多SSH-Key/">多SSH Key</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/干货集中营/">干货集中营</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/干货集中营，看我开发干货集中营/">干货集中营，看我开发干货集中营</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/微信/">微信</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/微信JSSDK/">微信JSSDK</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/微信支付/">微信支付</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/微信服务号/">微信服务号</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/百度地图/">百度地图</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/看我开发干货集中营/">看我开发干货集中营</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/虚拟机ssh/">虚拟机ssh</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/阿里云/">阿里云</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/阿里云服务器环境/">阿里云服务器环境</a><span class="tag-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+  
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 范TE剑<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      .
+      Theme by <a href="https://github.com/sun11/hexo-theme-paperbox" target="_blank">Paperbox</a>
+    </div>
+  </div>
+</footer>
+  </div>
+  <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+    <a href="/about" class="mobile-nav-link">关于</a>
+  
+  <a href="#search" class="mobile-nav-link st-search-show-outputs">搜索</a>
+</nav>
+
+  
+
+<!-- totop start -->
+<div id="totop">
+	<a title="返回顶部"></a>
+</div>
+<!-- totop end -->
+
+<!-- swiftype search start -->
+
+<!-- swiftype search end -->
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/lrsjng.jquery-qrcode/0.12.0/jquery.qrcode.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+</div>
+</body>
+</html>

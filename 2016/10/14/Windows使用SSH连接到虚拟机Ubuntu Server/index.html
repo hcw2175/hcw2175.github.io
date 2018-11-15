@@ -1,0 +1,270 @@
+
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  
+  <title>Windows使用SSH连接到虚拟机Ubuntu Server | 范TE剑</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="使用VMware安装了ubuntu server做做docker练习，但发现在虚拟机内操作很不方便，因为焦点是在虚拟机上，无法使用快捷键快速切回window上，所以就想着弄个ssh登录好了。简单记录下">
+<meta name="keywords" content="windows,虚拟机ssh,ubuntu server">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Windows使用SSH连接到虚拟机Ubuntu Server">
+<meta property="og:url" content="http://hcw2175.github.io/2016/10/14/Windows使用SSH连接到虚拟机Ubuntu Server/index.html">
+<meta property="og:site_name" content="范TE剑">
+<meta property="og:description" content="使用VMware安装了ubuntu server做做docker练习，但发现在虚拟机内操作很不方便，因为焦点是在虚拟机上，无法使用快捷键快速切回window上，所以就想着弄个ssh登录好了。简单记录下">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-11-15T00:59:18.058Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Windows使用SSH连接到虚拟机Ubuntu Server">
+<meta name="twitter:description" content="使用VMware安装了ubuntu server做做docker练习，但发现在虚拟机内操作很不方便，因为焦点是在虚拟机上，无法使用快捷键快速切回window上，所以就想着弄个ssh登录好了。简单记录下">
+  
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+    <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+  
+
+</head>
+</html>
+<body>
+<div id="container">
+  <div id="wrap">
+    <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <nav id="upper-nav" class="inner">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <div class="sub-nav">
+        
+        
+      </div>
+    </nav>
+    <div id="header-title">
+      
+        <h1 id="blog-title-wrap">
+          <a href="/" id="blog-title">范TE剑</a>
+        </h1>
+      
+    </div>
+    <div id="contenedor">
+      <ul class="cube">
+        <li class="cara">范TE剑</li>
+        <li class="cara"></li>
+        <li class="cara"></li>
+        <li class="cara"></li>
+        <li class="cara"></li>
+        <li class="cara"></li>
+      </ul>
+    </div>
+    <nav id="main-nav">
+      
+        <a class="main-nav-link" href="/">首页</a>
+      
+        <a class="main-nav-link" href="/archives">归档</a>
+      
+        <a class="main-nav-link" href="/about">关于</a>
+      
+      <a class="main-nav-link st-search-show-outputs">搜索</a>
+    </nav>
+  </div>
+</header>
+
+    <div class="outer">
+      <section id="main"><article id="post-Windows使用SSH连接到虚拟机Ubuntu Server" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <h3 href="/2016/10/14/Windows使用SSH连接到虚拟机Ubuntu Server/" class="article-date">
+  <time datetime="2016-10-14T13:45:10.000Z" itemprop="datePublished">2016-10-14</time>
+</h3>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Linux-Ubuntu/">Linux-Ubuntu</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+  <div class="curve-down">
+  <div class="fill-content">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Windows使用SSH连接到虚拟机Ubuntu Server
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+        <p>使用VMware安装了ubuntu server做做docker练习，但发现在虚拟机内操作很不方便，因为焦点是在虚拟机上，无法使用快捷键快速切回window上，所以就想着弄个ssh登录好了。简单记录下</p>
+<a id="more"></a>
+<h5 id="首先确定IP"><a href="#首先确定IP" class="headerlink" title="首先确定IP"></a><strong>首先确定IP</strong></h5><p>1、 ubuntu内输入命令确认ip: <code>ifconfig</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">ens33     Link encap:Ethernet  HWaddr 00:0c:29:4b:c8:cc  </span><br><span class="line">          inet addr:192.168.206.128  Bcast:192.168.206.255  Mask:255.255.255.0</span><br><span class="line">          inet6 addr: fe80::20c:29ff:fe4b:c8cc/64 Scope:Link</span><br><span class="line">          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1</span><br><span class="line">          RX packets:49206 errors:0 dropped:0 overruns:0 frame:0</span><br><span class="line">          TX packets:21539 errors:0 dropped:0 overruns:0 carrier:0</span><br><span class="line">          collisions:0 txqueuelen:1000 </span><br><span class="line">          RX bytes:62660533 (62.6 MB)  TX bytes:1352090 (1.3 MB)</span><br><span class="line"></span><br><span class="line">lo        Link encap:Local Loopback  </span><br><span class="line">          inet addr:127.0.0.1  Mask:255.0.0.0</span><br><span class="line">          inet6 addr: ::1/128 Scope:Host</span><br><span class="line">          UP LOOPBACK RUNNING  MTU:65536  Metric:1</span><br><span class="line">          RX packets:169 errors:0 dropped:0 overruns:0 frame:0</span><br><span class="line">          TX packets:169 errors:0 dropped:0 overruns:0 carrier:0</span><br><span class="line">          collisions:0 txqueuelen:1 </span><br><span class="line">          RX bytes:12369 (12.3 KB)  TX bytes:12369 (12.3 KB)</span><br></pre></td></tr></table></figure>
+<p>以上　<code>192.168.206.128</code> 就是虚拟机ip</p>
+<p>2、 windows使用命令ping下ip试试通不通： <code>ping 192.168.206.128</code></p>
+<p>正常应该没问题：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\ozhu2&gt;ping 192.168.206.128</span><br><span class="line">正在 Ping 192.168.206.128 具有 32 字节的数据:</span><br><span class="line">来自 192.168.206.128 的回复: 字节=32 时间&lt;1ms TTL=64</span><br><span class="line">来自 192.168.206.128 的回复: 字节=32 时间&lt;1ms TTL=64</span><br><span class="line">来自 192.168.206.128 的回复: 字节=32 时间&lt;1ms TTL=64</span><br><span class="line">来自 192.168.206.128 的回复: 字节=32 时间&lt;1ms TTL=64</span><br><span class="line">192.168.206.128 的 Ping 统计信息:</span><br><span class="line">    数据包: 已发送 = 4，已接收 = 4，丢失 = 0 (0% 丢失)，</span><br><span class="line">往返行程的估计时间(以毫秒为单位):</span><br><span class="line">    最短 = 0ms，最长 = 0ms，平均 = 0ms</span><br></pre></td></tr></table></figure>
+<h5 id="安装SSH服务"><a href="#安装SSH服务" class="headerlink" title="安装SSH服务"></a><strong>安装SSH服务</strong></h5><p>1、 ubuntu内输入命令确认是否安装ssh: <code>ssh localhost</code></p>
+<p>如果出现下面提示则表示还没有安装：</p>
+<blockquote>
+<p>ssh: connect to hostlocalhost port 22: Connection refused</p>
+</blockquote>
+<p>2、安装ssh服务： <code>sudo apt-get install openssh-server</code></p>
+<p>3、安装完毕输入命令查看状态： <code>sudo service ssh status</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">● ssh.service - OpenBSD Secure Shell server</span><br><span class="line">   Loaded: loaded (/lib/systemd/system/ssh.service; enabled; vendor preset: enabled)</span><br><span class="line">   Active: active (running) since Sun 2016-10-09 06:59:39 PDT; 28min ago</span><br><span class="line"> Main PID: 18710 (sshd)</span><br><span class="line">   CGroup: /system.slice/ssh.service</span><br><span class="line">           └─18710 /usr/sbin/sshd -D</span><br><span class="line">Oct 09 06:59:39 ubuntu sshd[18710]: Server listening on 0.0.0.0 port 22.</span><br><span class="line">Oct 09 06:59:39 ubuntu sshd[18710]: Server listening on :: port 22.</span><br><span class="line">Oct 09 06:59:39 ubuntu systemd[1]: Started OpenBSD Secure Shell server.</span><br><span class="line">Oct 09 07:00:24 ubuntu sshd[18726]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.206.1  user=root</span><br><span class="line">Oct 09 07:00:25 ubuntu sshd[18726]: Failed password for root from 192.168.206.1 port 62982 ssh2</span><br><span class="line">Oct 09 07:00:35 ubuntu sshd[18726]: Failed password for root from 192.168.206.1 port 62982 ssh2</span><br><span class="line">Oct 09 07:00:54 ubuntu sshd[18726]: Failed password for root from 192.168.206.1 port 62982 ssh2</span><br><span class="line">Oct 09 07:01:05 ubuntu sshd[18726]: Failed password for root from 192.168.206.1 port 62982 ssh2</span><br><span class="line">Oct 09 07:07:22 ubuntu sshd[18753]: Accepted password for hucw from 192.168.206.1 port 64950 ssh2</span><br><span class="line">Oct 09 07:07:22 ubuntu sshd[18753]: pam_unix(sshd:session): session opened for user hucw by (uid=0)</span><br></pre></td></tr></table></figure>
+<p>4、使用ssh工具连接吧，我使用的是xshell 5</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <div class="article-footer-content">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu-server/">ubuntu server</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/windows/">windows</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/虚拟机ssh/">虚拟机ssh</a></li></ul>
+
+        <a data-url="http://hcw2175.github.io/2016/10/14/Windows使用SSH连接到虚拟机Ubuntu Server/" data-id="cjohwyasl0009ip3i8ycxothk" class="article-share-link">分享到</a>
+        
+      </div>
+    </footer>
+  </div>
+  </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/02/28/阿里云服务器ESC环境（一）-基本配置/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">
+        
+          阿里云服务器ESC环境（一）- 基本配置
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/09/21/看我开发干货集中营App（三）-Retroft2+RxJava封装使用/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">看我开发干货集中营App（三）~Retroft2+RxJava封装使用</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+      
+      <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">近期文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/11/14/IOS微信上Vue单页面应用JSSDK签名失败解决方案/">IOS微信上Vue单页面应用JSSDK签名失败解决方案</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/11/解决Vue引入百度地图JSSDK：BMap is undefined 问题/">解决Vue引入百度地图JSSDK：BMap is undefined 问题</a>
+          </li>
+        
+          <li>
+            <a href="/2017/10/18/如何推送镜像到官方Docker Hub/">如何推送镜像到官方docker</a>
+          </li>
+        
+          <li>
+            <a href="/2017/03/18/阿里云服务器ESC环境（四）-Java、Nginx、Docker安装/">阿里云服务器ESC环境（四） - Java、Nginx、Docker安装</a>
+          </li>
+        
+          <li>
+            <a href="/2017/03/04/阿里云服务器ESC环境（三）-FTP配置/">阿里云服务器ESC环境（三） - FTP配置</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android开发/">Android开发</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AngularJS/">AngularJS</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ESC/">ESC</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/FTP/">FTP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Glide封装/">Glide封装</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nginx/">Nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Retroft2封装/">Retroft2封装</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava封装/">RxJava封装</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSH配置/">SSH配置</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ubuntu/">Ubuntu</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VSFTPD/">VSFTPD</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ionic/">ionic</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ionic入门/">ionic入门</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu-server/">ubuntu server</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/">vue</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/">windows</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/云服务器/">云服务器</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多SSH-Key/">多SSH Key</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/干货集中营/">干货集中营</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/干货集中营，看我开发干货集中营/">干货集中营，看我开发干货集中营</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/微信/">微信</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/微信JSSDK/">微信JSSDK</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/微信支付/">微信支付</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/微信服务号/">微信服务号</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/百度地图/">百度地图</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/看我开发干货集中营/">看我开发干货集中营</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/虚拟机ssh/">虚拟机ssh</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/阿里云/">阿里云</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/阿里云服务器环境/">阿里云服务器环境</a><span class="tag-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+  
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 范TE剑<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      .
+      Theme by <a href="https://github.com/sun11/hexo-theme-paperbox" target="_blank">Paperbox</a>
+    </div>
+  </div>
+</footer>
+  </div>
+  <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+    <a href="/about" class="mobile-nav-link">关于</a>
+  
+  <a href="#search" class="mobile-nav-link st-search-show-outputs">搜索</a>
+</nav>
+
+  
+
+<!-- totop start -->
+<div id="totop">
+	<a title="返回顶部"></a>
+</div>
+<!-- totop end -->
+
+<!-- swiftype search start -->
+
+<!-- swiftype search end -->
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/lrsjng.jquery-qrcode/0.12.0/jquery.qrcode.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+</div>
+</body>
+</html>

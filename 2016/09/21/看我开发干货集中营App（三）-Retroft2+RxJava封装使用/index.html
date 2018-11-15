@@ -1,0 +1,330 @@
+
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  
+  <title>看我开发干货集中营App（三）~Retroft2+RxJava封装使用 | 范TE剑</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="上一篇《看我开发干货集中营App（二） ~ APP初始化》中讲述了此APP所依赖的一些第三方库，包括Retrofit2,Okhttp3,RxJava,Gilde等，对于使用第三方依赖库，我自己一直都秉承着封装一层在使用的原则。这样做的好处除了方便实际使用外，就是万一需要替换对应依赖库不用满世界去修改代码，只需要在封装入口处修改就好了。关于使用第三方开源项目，大家可以参考下这篇文字：如何正确使用开源">
+<meta name="keywords" content="Android开发,干货集中营,看我开发干货集中营,Retroft2封装,RxJava封装,Glide封装">
+<meta property="og:type" content="article">
+<meta property="og:title" content="看我开发干货集中营App（三）~Retroft2+RxJava封装使用">
+<meta property="og:url" content="http://hcw2175.github.io/2016/09/21/看我开发干货集中营App（三）-Retroft2+RxJava封装使用/index.html">
+<meta property="og:site_name" content="范TE剑">
+<meta property="og:description" content="上一篇《看我开发干货集中营App（二） ~ APP初始化》中讲述了此APP所依赖的一些第三方库，包括Retrofit2,Okhttp3,RxJava,Gilde等，对于使用第三方依赖库，我自己一直都秉承着封装一层在使用的原则。这样做的好处除了方便实际使用外，就是万一需要替换对应依赖库不用满世界去修改代码，只需要在封装入口处修改就好了。关于使用第三方开源项目，大家可以参考下这篇文字：如何正确使用开源">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://oa5k1q7cb.bkt.clouddn.com/GankEssence/%E4%B8%89/%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84.PNG">
+<meta property="og:updated_time" content="2018-11-15T00:59:18.057Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="看我开发干货集中营App（三）~Retroft2+RxJava封装使用">
+<meta name="twitter:description" content="上一篇《看我开发干货集中营App（二） ~ APP初始化》中讲述了此APP所依赖的一些第三方库，包括Retrofit2,Okhttp3,RxJava,Gilde等，对于使用第三方依赖库，我自己一直都秉承着封装一层在使用的原则。这样做的好处除了方便实际使用外，就是万一需要替换对应依赖库不用满世界去修改代码，只需要在封装入口处修改就好了。关于使用第三方开源项目，大家可以参考下这篇文字：如何正确使用开源">
+<meta name="twitter:image" content="http://oa5k1q7cb.bkt.clouddn.com/GankEssence/%E4%B8%89/%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84.PNG">
+  
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+    <link href="//fonts.useso.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+  
+
+</head>
+</html>
+<body>
+<div id="container">
+  <div id="wrap">
+    <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <nav id="upper-nav" class="inner">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <div class="sub-nav">
+        
+        
+      </div>
+    </nav>
+    <div id="header-title">
+      
+        <h1 id="blog-title-wrap">
+          <a href="/" id="blog-title">范TE剑</a>
+        </h1>
+      
+    </div>
+    <div id="contenedor">
+      <ul class="cube">
+        <li class="cara">范TE剑</li>
+        <li class="cara"></li>
+        <li class="cara"></li>
+        <li class="cara"></li>
+        <li class="cara"></li>
+        <li class="cara"></li>
+      </ul>
+    </div>
+    <nav id="main-nav">
+      
+        <a class="main-nav-link" href="/">首页</a>
+      
+        <a class="main-nav-link" href="/archives">归档</a>
+      
+        <a class="main-nav-link" href="/about">关于</a>
+      
+      <a class="main-nav-link st-search-show-outputs">搜索</a>
+    </nav>
+  </div>
+</header>
+
+    <div class="outer">
+      <section id="main"><article id="post-看我开发干货集中营App（三）-Retroft2+RxJava封装使用" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <h3 href="/2016/09/21/看我开发干货集中营App（三）-Retroft2+RxJava封装使用/" class="article-date">
+  <time datetime="2016-09-21T13:18:26.000Z" itemprop="datePublished">2016-09-21</time>
+</h3>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/看我开发干货集中营App/">看我开发干货集中营App</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+  <div class="curve-down">
+  <div class="fill-content">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      看我开发干货集中营App（三）~Retroft2+RxJava封装使用
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+        <p>上一篇<a href="http://www.huchiwei.com/2016/09/09/%E7%9C%8B%E6%88%91%E5%BC%80%E5%8F%91%E5%B9%B2%E8%B4%A7%E9%9B%86%E4%B8%AD%E8%90%A5App%EF%BC%88%E4%BA%8C%EF%BC%89-APP%E5%88%9D%E5%A7%8B%E5%8C%96/" target="_blank" rel="noopener">《看我开发干货集中营App（二） ~ APP初始化》</a>中讲述了此APP所依赖的一些第三方库，包括Retrofit2,Okhttp3,RxJava,Gilde等，对于使用第三方依赖库，我自己一直都秉承着封装一层在使用的原则。这样做的好处除了方便实际使用外，就是万一需要替换对应依赖库不用满世界去修改代码，只需要在封装入口处修改就好了。关于使用第三方开源项目，大家可以参考下这篇文字：<a href="http://stormzhang.com/android/2016/05/08/how-to-choose-open-source-project/" target="_blank" rel="noopener">如何正确使用开源项目？</a></p>
+<p>接下来介绍下上面几个库的基本封装使用，提醒下以下内容将会基于你已经了解过对应的开源项目，而且知道如何使用，所以如果还未了解过相关库的请自行Google了解一番再回来看哦。</p>
+<a id="more"></a>
+<p>OK，先预览下《干货精选》的目录结构：</p>
+<p><img src="http://oa5k1q7cb.bkt.clouddn.com/GankEssence/%E4%B8%89/%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84.PNG" alt="目录结构"></p>
+<p>关于Android App目录结构，个人比较推荐按模块分类。直接看看包名下的目录：</p>
+<ul>
+<li><code>commonui</code>: 通用UI封装类存放目录</li>
+<li><code>core</code>: 存放底层核心的封装类，如retrofit，rxjava等</li>
+<li><code>modules</code>: 按模块存放文件目录，主要是mvp开发模式的文件，如<a href="https://github.com/googlesamples/android-architecture" target="_blank" rel="noopener">Google Todo-Mvp分支</a>，</li>
+</ul>
+<h2 id="Retrofit2封装"><a href="#Retrofit2封装" class="headerlink" title="Retrofit2封装"></a>Retrofit2封装</h2><p>创建工具类：<code>core/retofit/RetrofitHelper</code></p>
+<blockquote>
+<p>RetrofitHelper特性：</p>
+<ol>
+<li>单例形式创建Retrofit实例；</li>
+<li>使用okhttp3作为请求客户端；</li>
+<li>使用gson作为数据转换器；</li>
+<li>使用RxJava优化异步请求流程；</li>
+<li>开启数据缓存，无网络时可从缓存读取数据；</li>
+<li>辅助类静态方法获取Retrofit Service实例。</li>
+</ol>
+</blockquote>
+<p>节省篇幅，上代码看注释：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br></pre></td><td class="code"><pre><span class="line">public class RetrofitHelper &#123;</span><br><span class="line"></span><br><span class="line">    private volatile static Retrofit retrofitInstance = null;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 创建Retrofit请求Api</span><br><span class="line">     * @param clazz   Retrofit Api接口</span><br><span class="line">     * @return api实例</span><br><span class="line">     */</span><br><span class="line">    public static &lt;T&gt; T createApi(Class&lt;T&gt; clazz)&#123;</span><br><span class="line">        return getInstance().create(clazz);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    // ===============================================================</span><br><span class="line">    // private methods =================================================</span><br><span class="line">    /**</span><br><span class="line">     * 获取Retrofit实例</span><br><span class="line">     * @return Retrofit</span><br><span class="line">     */</span><br><span class="line">    private static Retrofit getInstance()&#123;</span><br><span class="line">        if(null == retrofitInstance)&#123;</span><br><span class="line">            synchronized (Retrofit.class)&#123;</span><br><span class="line">                if(null == retrofitInstance)&#123; // 双重检验锁,仅第一次调用时实例化</span><br><span class="line">                    retrofitInstance = new Retrofit.Builder()</span><br><span class="line">                            // baseUrl总是以/结束，@URL不要以/开头</span><br><span class="line">                            .baseUrl(BuildConfig.API_SERVER_URL)</span><br><span class="line">                            // 使用OkHttp Client</span><br><span class="line">                            .client(buildOKHttpClient())</span><br><span class="line">                            // 集成RxJava处理</span><br><span class="line">                            .addCallAdapterFactory(RxJavaCallAdapterFactory.create())</span><br><span class="line">                            // 集成Gson转换器</span><br><span class="line">                            .addConverterFactory(buildGsonConverterFactory())</span><br><span class="line">                            .build();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return retrofitInstance;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 构建OkHttpClient</span><br><span class="line">     * @return OkHttpClient</span><br><span class="line">     */</span><br><span class="line">    private static OkHttpClient buildOKHttpClient()&#123;</span><br><span class="line">        // 添加日志拦截器，非debug模式不打印任何日志</span><br><span class="line">        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();</span><br><span class="line">        loggingInterceptor.setLevel(AppUtil.isDev() ? HttpLoggingInterceptor.Level.HEADERS : HttpLoggingInterceptor.Level.NONE) ;</span><br><span class="line"></span><br><span class="line">        return new OkHttpClient.Builder()</span><br><span class="line">                .addInterceptor(loggingInterceptor)                       // 添加日志拦截器</span><br><span class="line">                //.addInterceptor(buildTokenInterceptor())                // 添加token拦截器</span><br><span class="line">                .addNetworkInterceptor(buildCacheInterceptor())           // 添加网络缓存拦截器</span><br><span class="line">                .cache(getCache())                                        // 设置缓存文件</span><br><span class="line">                .retryOnConnectionFailure(true)                           // 自动重连</span><br><span class="line">                .connectTimeout(15, TimeUnit.SECONDS)                     // 15秒连接超时</span><br><span class="line">                .readTimeout(20, TimeUnit.SECONDS)                        // 20秒读取超时</span><br><span class="line">                .writeTimeout(20, TimeUnit.SECONDS)                       // 20秒写入超时</span><br><span class="line">                .build();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 获取缓存对象</span><br><span class="line">     * @return Cache</span><br><span class="line">     */</span><br><span class="line">    private static Cache getCache()&#123;</span><br><span class="line">        // 获取缓存目标,SD卡</span><br><span class="line">        File cacheFile = new File(AppUtil.getContext().getCacheDir(), ResourceUtil.getString(R.string.app_name_en));</span><br><span class="line">        // 创建缓存对象,最大缓存50m</span><br><span class="line">        return new Cache(cacheFile, 1024*1024*20);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 构建缓存拦截器</span><br><span class="line">     * @return Interceptor</span><br><span class="line">     */</span><br><span class="line">    private static Interceptor buildCacheInterceptor()&#123;</span><br><span class="line">        return new Interceptor() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public Response intercept(Chain chain) throws IOException &#123;</span><br><span class="line">                Request request = chain.request();</span><br><span class="line">                // 无网络连接时请求从缓存中读取</span><br><span class="line">                if (!AppUtil.isNetworkConnected()) &#123;</span><br><span class="line">                    request = request.newBuilder()</span><br><span class="line">                            .cacheControl(CacheControl.FORCE_CACHE)</span><br><span class="line">                            .build();</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                // 响应内容处理</span><br><span class="line">                // 在线时缓存5分钟</span><br><span class="line">                // 离线时缓存4周</span><br><span class="line">                Response response = chain.proceed(request);</span><br><span class="line">                if (AppUtil.isNetworkConnected()) &#123;</span><br><span class="line">                    int maxAge = 300;</span><br><span class="line">                    response.newBuilder()</span><br><span class="line">                            .header(&quot;Cache-Control&quot;, &quot;public, max-age=&quot; + maxAge)</span><br><span class="line">                            .removeHeader(&quot;Pragma&quot;)// 清除头信息，因为服务器如果不支持，会返回一些干扰信息，不清除下面无法生效</span><br><span class="line">                            .build();</span><br><span class="line">                &#125;else &#123;</span><br><span class="line">                    // 无网络时，设置超时为4周</span><br><span class="line">                    int maxStale = 60 * 60 * 24 * 28;</span><br><span class="line">                    response.newBuilder()</span><br><span class="line">                            .header(&quot;Cache-Control&quot;, &quot;public, only-if-cached, max-stale=&quot; + maxStale)</span><br><span class="line">                            .removeHeader(&quot;Pragma&quot;)</span><br><span class="line">                            .build();</span><br><span class="line">                &#125;</span><br><span class="line">                return response;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 构建GSON转换器</span><br><span class="line">     * @return GsonConverterFactory</span><br><span class="line">     */</span><br><span class="line">    private static GsonConverterFactory buildGsonConverterFactory()&#123;</span><br><span class="line">        GsonBuilder builder = new GsonBuilder();</span><br><span class="line">        builder.setLenient();</span><br><span class="line"></span><br><span class="line">        // 注册类型转换适配器</span><br><span class="line">        builder.registerTypeAdapter(Date.class, new JsonDeserializer&lt;Date&gt;() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public Date deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException &#123;</span><br><span class="line">                return null == json ? null : new Date(json.getAsLong());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        Gson gson = builder.create();</span><br><span class="line">        return GsonConverterFactory.create(gson);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中有几点需要说明下：</p>
+<ol>
+<li>AppUtil是另外一个工具类，封装了APP常用的一些方法，如判断网络状态，获取App版本、缓存路径等。</li>
+<li><code>API_SERVER_URL</code> 是定义在 build.gradle 中的一个常量(干货集中营api基本URL)，实际产品研发中可以使用同样方法定义不同开发环境(本地开发、测试、正式环境)的服务器地址。</li>
+<li>缓存设置如果服务器响应Header不支持缓存,貌似缓存不起作用，欢迎大家帮忙测试。</li>
+</ol>
+<p><strong>使用方法：</strong></p>
+<p>假设有Retrofit Service Api如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public interface ArticleServiceApi &#123;</span><br><span class="line"></span><br><span class="line">    @GET(&quot;day/&#123;year&#125;/&#123;month&#125;/&#123;day&#125;&quot;)</span><br><span class="line">    Observable&lt;List&lt;Article&gt;&gt; fetchByDate(@Path(&quot;year&quot;) String year, @Path(&quot;month&quot;) String month,</span><br><span class="line">                                    @Path(&quot;day&quot;) String day);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>执行api请求如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">RetrofitHelper.createApi(ArticleServiceApi.class)</span><br><span class="line">    .fetchByDate(&quot;2016&quot;, &quot;09&quot;, &quot;17&quot;)</span><br><span class="line">    .subscribeOn(Schedulers.io())</span><br><span class="line">    .observeOn(AndroidSchedulers.mainThread())</span><br><span class="line">    .subscribe(new Subscriber&lt;List&lt;Article&gt;&gt;() &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public void onCompleted() &#123;&#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public void onError(Throwable e) &#123;&#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public void onNext(List&lt;Article&gt; articles) &#123;&#125;</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
+<p>是不是比原始的请求简单不少。接下来对RxJava封装一层，使上面的请求更加简单点。</p>
+<h2 id="RxJava封装"><a href="#RxJava封装" class="headerlink" title="RxJava封装"></a>RxJava封装</h2><p>再Retrofit中使用RxJava，需要封装的地方仅有2个地方，</p>
+<blockquote>
+<ol>
+<li>切换线程操作</li>
+<li>响应结果处理：onComplete()方法可选，通用错误响应，保留onSuccess()供用户调用</li>
+</ol>
+</blockquote>
+<p>从干货集中营API返回结果可知，响应格式如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    error: false,</span><br><span class="line">    results: [object, object]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 或者</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">    error: false,</span><br><span class="line">    category: [String,String...],</span><br><span class="line">    results: &#123;</span><br><span class="line">        &quot;Android&quot;: [&#123;&#125;, &#123;&#125;],</span><br><span class="line">        &quot;IOS&quot;: [&#123;&#125;, &#123;&#125;]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>为此，首先创建响应结果的实体基类 <code>core/response/ResponseData</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public class ResponseData &#123;</span><br><span class="line"></span><br><span class="line">    private boolean error;           // 是否请求错误</span><br><span class="line"></span><br><span class="line">    public boolean isError() &#123;</span><br><span class="line">        return error;</span><br><span class="line">    &#125;</span><br><span class="line">    public void setError(boolean error) &#123;</span><br><span class="line">        this.error = error;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后建立干货的实体类： <code>modules/articles/entity/Article</code>，以及API响应结果实体类<code>modules/articles/entity/DailyArticles</code>。</p>
+<p>基于以上响应实体类，我们创建RxJava订阅者的封装基类：<code>core/rx/RxSubscriber</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">public abstract class RxSubscriber&lt;T&gt; extends Subscriber&lt;T&gt; &#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onCompleted() &#123;</span><br><span class="line">        // 忽略操作，需要可覆写该方法</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onError(Throwable e) &#123;</span><br><span class="line">        if(e instanceof HttpException)&#123;</span><br><span class="line">            String errNetwork = ResourceUtil.getString(R.string.err_network);</span><br><span class="line">            LogUtil.error(e, &quot;onError: &quot; + errNetwork);</span><br><span class="line">            ToastUtil.show(errNetwork);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // TODO: 处理其它通用错误</span><br><span class="line">        // 覆写此方法自行处理异常，通用异常使用super.onError(e)保留</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onNext(T t) &#123;</span><br><span class="line">        if(t instanceof ResponseData)&#123;</span><br><span class="line">            ResponseData response = (ResponseData) t;</span><br><span class="line">            // 判断是否请求错误，出错直接转到onError()</span><br><span class="line">            if(response.isError())&#123;</span><br><span class="line">                Throwable e = new Throwable(ResourceUtil.getString(R.string.err_default));</span><br><span class="line">                this.onError(e);</span><br><span class="line">                return;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        onSuccess(t);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 请求成功回调</span><br><span class="line">     * @param t 最终响应结果</span><br><span class="line">     */</span><br><span class="line">     public abstract void onSuccess(T t);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里封装并没有做太多处理，主要是对公共的异常做了一次处理，保留onSuccess()更多关注业务处理。这样封装感觉还不是很好，比如错误处理可以通过事件方式传递给View等，不过因为暂时对Android研究不深，还没有更好的想法。</p>
+<p>接下来，对线程切换操作再做一个封装：<code>core/rx/RxJavaHelper</code>。</p>
+<p>对线程切换的封装需要用到RxJava的 <code>compose()</code> 方法，如果不太了解它的使用，可以参考下：<a href="http://gank.io/post/560e15be2dca930e00da1083#toc_17" target="_blank" rel="noopener">给 Android 开发者的 RxJava 详解</a>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">public class RxJavaHelper &#123;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 切换线程操作</span><br><span class="line">     * @return Observable转换器</span><br><span class="line">     */</span><br><span class="line">    public static &lt;T&gt; Observable.Transformer&lt;T, T&gt; observeOnMainThread() &#123;</span><br><span class="line">        return new Observable.Transformer&lt;T, T&gt;() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public Observable&lt;T&gt; call(Observable&lt;T&gt; tObservable) &#123;</span><br><span class="line">                return tObservable</span><br><span class="line">                        .subscribeOn(Schedulers.io())                       // 在io线程中请求</span><br><span class="line">                        .observeOn(AndroidSchedulers.mainThread());         // 请求完成后返回主线程处理</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>封装基本完毕，再来看看请求api代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">RetrofitHelper.createApi(ArticleServiceApi.class)</span><br><span class="line">        .fetchByDate(&quot;2016&quot;, &quot;09&quot;, &quot;01&quot;)</span><br><span class="line">        .compose(RxJavaHelper.&lt;DailyArticles&gt;observeOnMainThread())</span><br><span class="line">        .subscribe(new RxSubscriber&lt;DailyArticles&gt;() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void onSuccess(DailyArticles dailyArticles) &#123;</span><br><span class="line">                LogUtil.debug(&quot;onSuccess: &quot; + dailyArticles.getCategory().toString());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br></pre></td></tr></table></figure>
+<p>是不是有所改善~~</p>
+<p>来看看请求结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">D/OkHttp: --&gt; GET http://gank.io/api/day/2016/09/01 http/1.1</span><br><span class="line">D/OkHttp: --&gt; END GET</span><br><span class="line">D/OpenGLRenderer: Use EGL_SWAP_BEHAVIOR_PRESERVED: true</span><br><span class="line">                  [ 09-21 20:50:57.557  2870: 2870 D/         ]</span><br><span class="line">                  HostConnection::get() New Host Connection established 0xa230c570, tid 2870</span><br><span class="line">                  [ 09-21 20:50:57.625  2870: 2918 D/         ]</span><br><span class="line">                  HostConnection::get() New Host Connection established 0xae427510, tid 2918</span><br><span class="line">I/OpenGLRenderer: Initialized EGL, version 1.4</span><br><span class="line">D/OkHttp: &lt;-- 200 OK http://gank.io/api/day/2016/09/01 (250ms)</span><br><span class="line">D/OkHttp: Server: nginx/1.4.6 (Ubuntu)</span><br><span class="line">D/OkHttp: Date: Wed, 21 Sep 2016 12:50:57 GMT</span><br><span class="line">D/OkHttp: Content-Type: application/json</span><br><span class="line">D/OkHttp: Content-Length: 4945</span><br><span class="line">D/OkHttp: Connection: keep-alive</span><br><span class="line">D/OkHttp: &lt;-- END HTTP</span><br><span class="line">D/GankEssence: ╔════════════════════════════════════════════════════════════════════════════════════════</span><br><span class="line">D/GankEssence: ║ RxSubscriber.onNext  (RxSubscriber.java:51)</span><br><span class="line">D/GankEssence: ║    MainActivity$1.onSuccess  (MainActivity.java:23)</span><br><span class="line">D/GankEssence: ╟────────────────────────────────────────────────────────────────────────────────────────</span><br><span class="line">D/GankEssence: ║ onSuccess: [瞎推荐, Android, 福利, 休息视频, iOS]</span><br><span class="line">D/GankEssence: ╚════════════════════════════════════════════════════════════════════════════════════════</span><br></pre></td></tr></table></figure>
+<p>OK，还可以，Retrofit2 + RxJava 封装就暂时这样了。如果使用过程有什么问题再修改修改！！</p>
+<p>本来还想再把Logger以及Glide的封装再说说，不过发现篇幅好长啊，而且Glide本身应实在够好了，不需要太多封装，只需封装个工具类方便我们自己使用就好了，Logger也是一样。大家有需要可以直接看看源码：<a href="https://github.com/hcw2175/GankEssence/blob/master/app/src/main/java/com/huchiwei/gankessence/core/glide/ImagesUtil.java" target="_blank" rel="noopener">ImageUtil</a> 和 <a href="https://github.com/hcw2175/GankEssence/blob/master/app/src/main/java/com/huchiwei/gankessence/core/utils/LogUtil.java" target="_blank" rel="noopener">LogUtil</a>。</p>
+<p>本篇文章主要是简单说了第三方开源库的封装使用，其它的没说。对于Activity、Fragment等各类View组件使用，后面肯定会有封装一些适当的基类，特别是RecyclerView，会在后面开发过程提到的。</p>
+<hr>
+<p><em>预告，下一篇《看我开发干货集中营App（四）~ 首页开发》将开始构建APP应用，功能点有RecyclerView使用、下拉刷新、上拉加载更多、HTML内容的解析等等。</em></p>
+<blockquote>
+<p>系列文章：</p>
+<ol>
+<li><a href="http://www.huchiwei.com/2016/09/03/%E7%9C%8B%E6%88%91%E5%BC%80%E5%8F%91%E5%B9%B2%E8%B4%A7%E9%9B%86%E4%B8%AD%E8%90%A5App%EF%BC%88%E4%B8%80%EF%BC%89-%E5%BC%80%E7%AF%87/" target="_blank" rel="noopener">看我开发干货集中营App（一）~ 开篇</a></li>
+<li><a href="http://www.huchiwei.com/2016/09/09/%E7%9C%8B%E6%88%91%E5%BC%80%E5%8F%91%E5%B9%B2%E8%B4%A7%E9%9B%86%E4%B8%AD%E8%90%A5App%EF%BC%88%E4%BA%8C%EF%BC%89-APP%E5%88%9D%E5%A7%8B%E5%8C%96/" target="_blank" rel="noopener">看我开发干货集中营App（二）~ APP初始化</a></li>
+<li><a href="http://www.huchiwei.com/2016/09/21/%E7%9C%8B%E6%88%91%E5%BC%80%E5%8F%91%E5%B9%B2%E8%B4%A7%E9%9B%86%E4%B8%AD%E8%90%A5App%EF%BC%88%E4%B8%89%EF%BC%89-Retroft2+RxJava%E5%B0%81%E8%A3%85%E4%BD%BF%E7%94%A8/" target="_blank" rel="noopener">看我开发干货集中营App（三）~ 首页开发</a></li>
+</ol>
+</blockquote>
+<p><em>Tags: 看我开发 Android开发 干货集中营 开放api Retroft2封装 RxJava封装 Glide封装</em></p>
+<p><em>欢迎关注，转载请注明原文链接</em></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <div class="article-footer-content">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android开发/">Android开发</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Glide封装/">Glide封装</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Retroft2封装/">Retroft2封装</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RxJava封装/">RxJava封装</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/干货集中营/">干货集中营</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/看我开发干货集中营/">看我开发干货集中营</a></li></ul>
+
+        <a data-url="http://hcw2175.github.io/2016/09/21/看我开发干货集中营App（三）-Retroft2+RxJava封装使用/" data-id="cjohwyasx000rip3iwg012apo" class="article-share-link">分享到</a>
+        
+      </div>
+    </footer>
+  </div>
+  </div>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/10/14/Windows使用SSH连接到虚拟机Ubuntu Server/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">
+        
+          Windows使用SSH连接到虚拟机Ubuntu Server
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/09/09/看我开发干货集中营App（二）-APP初始化/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">看我开发干货集中营App（二） ~ APP初始化</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+      
+      <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">近期文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/11/14/IOS微信上Vue单页面应用JSSDK签名失败解决方案/">IOS微信上Vue单页面应用JSSDK签名失败解决方案</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/11/解决Vue引入百度地图JSSDK：BMap is undefined 问题/">解决Vue引入百度地图JSSDK：BMap is undefined 问题</a>
+          </li>
+        
+          <li>
+            <a href="/2017/10/18/如何推送镜像到官方Docker Hub/">如何推送镜像到官方docker</a>
+          </li>
+        
+          <li>
+            <a href="/2017/03/18/阿里云服务器ESC环境（四）-Java、Nginx、Docker安装/">阿里云服务器ESC环境（四） - Java、Nginx、Docker安装</a>
+          </li>
+        
+          <li>
+            <a href="/2017/03/04/阿里云服务器ESC环境（三）-FTP配置/">阿里云服务器ESC环境（三） - FTP配置</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android开发/">Android开发</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AngularJS/">AngularJS</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ESC/">ESC</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/FTP/">FTP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Glide封装/">Glide封装</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nginx/">Nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Retroft2封装/">Retroft2封装</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava封装/">RxJava封装</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SSH配置/">SSH配置</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ubuntu/">Ubuntu</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VSFTPD/">VSFTPD</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ionic/">ionic</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ionic入门/">ionic入门</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu-server/">ubuntu server</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/">vue</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/">windows</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/云服务器/">云服务器</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多SSH-Key/">多SSH Key</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/干货集中营/">干货集中营</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/干货集中营，看我开发干货集中营/">干货集中营，看我开发干货集中营</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/微信/">微信</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/微信JSSDK/">微信JSSDK</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/微信支付/">微信支付</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/微信服务号/">微信服务号</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/百度地图/">百度地图</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/看我开发干货集中营/">看我开发干货集中营</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/虚拟机ssh/">虚拟机ssh</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/阿里云/">阿里云</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/阿里云服务器环境/">阿里云服务器环境</a><span class="tag-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+  
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 范TE剑<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      .
+      Theme by <a href="https://github.com/sun11/hexo-theme-paperbox" target="_blank">Paperbox</a>
+    </div>
+  </div>
+</footer>
+  </div>
+  <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+    <a href="/about" class="mobile-nav-link">关于</a>
+  
+  <a href="#search" class="mobile-nav-link st-search-show-outputs">搜索</a>
+</nav>
+
+  
+
+<!-- totop start -->
+<div id="totop">
+	<a title="返回顶部"></a>
+</div>
+<!-- totop end -->
+
+<!-- swiftype search start -->
+
+<!-- swiftype search end -->
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/lrsjng.jquery-qrcode/0.12.0/jquery.qrcode.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+</div>
+</body>
+</html>
